@@ -30,9 +30,9 @@ const HomeView = () => {
               Altijd je <span>éigen</span> favoriete
               <br /> recepten bij de hand.
             </h1>
-            <button className="btn">
+            <Link to="/recept-toevoegen" className="btn">
               Recept toevoegen <FontAwesomeIcon icon={faPlus} />
-            </button>
+            </Link>
           </div>
         </div>
       </header>

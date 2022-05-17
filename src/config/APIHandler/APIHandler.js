@@ -26,7 +26,13 @@ export default APIHandler = {
   getRecipe: (id) => {
     const request = `${firebaseUrl}/recipes/${id}.json`;
     return APIHandler.makeRequest(request);
+  },
+
+  editRecipe: (id, recipe) => {
+    const request = `${firebaseUrl}/recipes/${id}.json`;
+    const settings = { method: 'PUT', headers: { 'Content-Type': 'application/json', }, body: JSON.stringify(recipe), }
+    return APIHandler.makeRequest(request, settings);
   }
 
-//   editRecipe, deleteRecipe
+// deleteRecipe
 };

@@ -28,12 +28,12 @@ const generateListItemString = ({ name, quantity, quantityType }) => {
 
 const getRecipe = async (id, callback) => {
   const recipe = await APIHandler.getRecipe(id);
-  console.log(recipe);
   callback(recipe);
 }
 
 const RecipeOverview = () => {
   const [recipe, setRecipe] = useState({});
+  const [recipeId, setRecipeId] = useState('');
   const [listItems, setListItems] = useState([]);
   const [ modal, openModal ] = useState(false);
 
@@ -43,6 +43,7 @@ const RecipeOverview = () => {
     const { pathname } = window.location;
     const recipeId = pathname.split('/recept/')[1];
     getRecipe(recipeId, setRecipe);
+    setRecipeId(recipeId);
   }, [setRecipe]);
 
   // function to add or remove item from shoppinglist
@@ -119,7 +120,7 @@ const RecipeOverview = () => {
 
       {modal && (
         <Modal modalIsOpen={openModal}>
-          <AlterRecipe recipe={recipe} modalIsOpen={openModal} />
+          <AlterRecipe recipe={recipe} modalIsOpen={openModal} recipeId={recipeId} />
         </Modal>
       )}
     </div>

@@ -1,115 +1,7 @@
 import React, { useState } from "react";
-import { APIHandler } from "config/C4";
+import { APIHandler, RecipeSettings } from "config/C4";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
-
-const dishTypes = [
-  {
-    shortName: "meat",
-    longName: "Vleesgerecht",
-  },
-  {
-    shortName: "fish",
-    longName: "Visgerecht",
-  },
-  {
-    shortName: "vegetarian",
-    longName: "Vegetarisch gerecht",
-  },
-  {
-    shortName: "vegan",
-    longName: "Veganistisch gerecht",
-  },
-  {
-    shortName: "else",
-    longName: "Overig"
-  }
-];
-
-const kitchenTypes = [
-  {
-    shortName: "french",
-    longName: "Frans",
-  },
-  {
-    shortName: "italian",
-    longName: "Italiaans",
-  },
-  {
-    shortName: "thai",
-    longName: "Thais",
-  },
-  {
-    shortName: "chinese",
-    longName: "Chinees",
-  },
-  {
-    shortName: "mexican",
-    longName: "Mexicaans",
-  },
-  {
-    shortName: "else",
-    longName: "Overig"
-  }
-];
-
-const quantityTypes = [
-  {
-    shortName: "piece",
-    longName: "stuks",
-  },
-  {
-    shortName: "gram",
-    longName: "gram",
-  },
-  {
-    shortName: "mililiter",
-    longName: "mililiter",
-  },
-  {
-    shortName: "teaspoon",
-    longName: "theelepel",
-  },
-  {
-    shortName: "tablespoon",
-    longName: "eetlepel",
-  },
-];
-
-const ingredientType = [
-  {
-    shortName: "vegetable",
-    longName: "Groenten of Fruit",
-  },
-  {
-    shortName: "sauce",
-    longName: "Sauzen of Oliën",
-  },
-  {
-    shortName: "spices",
-    longName: "Kruiden",
-  },
-  {
-    shortName: "meat",
-    longName: "Vlees(vervangers)",
-  },
-  {
-    shortName: "dairy",
-    longName: "Zuivelproducten",
-  },
-  {
-    shortName: "doughware",
-    longName: "Deegwaren",
-  },
-  {
-    shortName: "bread",
-    longName: "Brood",
-  },
-  {
-    shortName: "else",
-    longName: "Overig",
-  },
-];
 
 const AddRecipeView = () => {
   const [recipe, setRecipe] = useState({
@@ -205,7 +97,7 @@ const AddRecipeView = () => {
           <option disabled selected>
             Maak een keuze
           </option>
-          {dishTypes.map((type, index) => {
+          {RecipeSettings.dishTypes.map((type, index) => {
             return (
               <option key={index} value={type.shortName}>
                 {type.longName}
@@ -220,7 +112,7 @@ const AddRecipeView = () => {
           <option disabled selected>
             Maak een keuze
           </option>
-          {kitchenTypes.map((type, index) => {
+          {RecipeSettings.kitchenTypes.map((type, index) => {
             return (
               <option key={index} value={type.shortName}>
                 {type.longName}
@@ -273,7 +165,7 @@ const AddRecipeView = () => {
               <option disabled selected>
                 Maak een keuze
               </option>
-              {quantityTypes.map((type, index) => {
+              {RecipeSettings.quantityTypes.map((type, index) => {
                 return (
                   <option key={index} value={type.shortName}>
                     {type.longName}
@@ -286,7 +178,7 @@ const AddRecipeView = () => {
               <option disabled selected>
                 Maak een keuze
               </option>
-              {ingredientType.map((type, index) => {
+              {RecipeSettings.ingredientType.map((type, index) => {
                 return (
                   <option key={index} value={type.shortName}>
                     {type.longName}

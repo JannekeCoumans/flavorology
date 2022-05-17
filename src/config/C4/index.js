@@ -9,6 +9,7 @@ export { default as RecipeOverviewHeader} from 'components/RecipeOverviewHeader'
 
 // CONFIG
 export { default as APIHandler } from 'config/APIHandler';
+export { default as RecipeSettings } from 'config/RecipeSettings';
 
 // ROUTERS
 
