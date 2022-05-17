@@ -3,10 +3,6 @@ import { APIHandler } from "config/C4";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
-const addRecipe = async (recipe) => {
-  
-};
-
 const dishTypes = [
   {
     shortName: "meat",
@@ -129,8 +125,8 @@ const AddRecipeView = () => {
   });
   const [ingredientCount, setIngredientCount] = useState(1);
   const [preperationStepsCount, setPreperationStepsCount] = useState(1);
-  const placeholderImage =
-    "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Begrippenlijst.svg";
+  // const placeholderImage =
+  //   "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Begrippenlijst.svg";
 
   const changeHandler = (e) => {
     const { id, value } = e.target;
