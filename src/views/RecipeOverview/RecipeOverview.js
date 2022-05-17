@@ -1,79 +1,76 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faPen, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-import { AlterRecipe, APIHandler, Modal, RecipeOverviewHeader } from 'config/C4';
+import {
+  AlterRecipe,
+  APIHandler,
+  Modal,
+  RecipeOverviewHeader,
+  StorageHandler
+} from "config/C4";
 
 const convertQuantityType = (quantityType) => {
   switch (quantityType) {
     case "piece":
-      return "";
+      return "stuks";
     case "gram":
       return "gram";
     case "teaspoon":
       return "theelepel";
+    case "tablespoon":
+      return "eetlepel";
     default:
       return null;
   }
 };
 
-const generateListItemString = ({ name, quantity, quantityType }) => {
+const generateListItemString = ({ ingredientName, quantity, quantityType }) => {
   const quantityTypeConverted = convertQuantityType(quantityType);
   if (quantityTypeConverted) {
-    return `${quantity} ${quantityTypeConverted} ${name}`;
+    return `${quantity} ${quantityTypeConverted} ${ingredientName}`;
   }
 
-  return `${quantity} ${name}`;
+  return `${quantity} ${ingredientName}`;
 };
 
 const getRecipe = async (id, callback) => {
   const recipe = await APIHandler.getRecipe(id);
+  recipe.ingredients.sort((a, b) =>
+    a.ingredientType > b.ingredientType
+      ? 1
+      : b.ingredientType > a.ingredientType
+      ? -1
+      : 0
+  );
   callback(recipe);
-}
+};
 
 const RecipeOverview = () => {
   const [recipe, setRecipe] = useState({});
-  const [recipeId, setRecipeId] = useState('');
-  const [listItems, setListItems] = useState([]);
-  const [ modal, openModal ] = useState(false);
+  const [recipeId, setRecipeId] = useState("");
+  const [modal, openModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [addedToList, setAddedToList] = useState(false);
 
   const { ingredients, preperationSteps } = recipe;
 
   useEffect(() => {
     const { pathname } = window.location;
-    const recipeId = pathname.split('/recept/')[1];
+    const recipeId = pathname.split("/recept/")[1];
     getRecipe(recipeId, setRecipe);
     setRecipeId(recipeId);
   }, [setRecipe]);
 
-  // function to add or remove item from shoppinglist
-  const changeListItems = (e) => {
-    const { name } = e.target;
-    const itemInList = listItems.some((listItem) => listItem.name === name);
-    if (itemInList) {
-      const index = listItems.findIndex((listItem) => listItem.name === name);
-      const updatedListItems = listItems;
-      updatedListItems.splice(index, 1);
-      setListItems(updatedListItems);
-    } else {
-      const updatedListItems = listItems;
-      const itemToAdd = ingredients.filter(
-        (ingredient) => ingredient.name === name
-      );
-      updatedListItems.push(itemToAdd[0]);
-      setListItems(updatedListItems);
-    }
-  };
-
-  // function to check if checkbox is checked
-  const itemIsInList = (item) => {
-    if (listItems.length > 0) {
-      const itemInList = listItems.filter(
-        (listItem) => listItem.name === item.name
-      );
-      return itemInList.length > 0;
-    }
-  };
+  const checkListItems = () => {
+    setLoading(true);
+    const checkboxes = [...document.getElementsByName('ingredient')].filter(c => c.checked).map(c => c.id);
+    const list = StorageHandler.get('shoppinglist') || [];
+    checkboxes.map(i => list.push(i));
+    StorageHandler.set('shoppinglist', list);
+    setLoading(false);
+    setAddedToList(true);
+  }
 
   return (
     <div className="recipeOverview">
@@ -82,36 +79,45 @@ const RecipeOverview = () => {
         <div className="recipeOverview__content--ingredients">
           <h1 className="sectionTitle">Ingrediënten</h1>
           <ul>
-            {recipe && ingredients && ingredients.map((item, i) => (
-              <li key={i}>
-                <input
-                  type="checkbox"
-                  name={item.name}
-                  id={generateListItemString(item)}
-                  onChange={changeListItems}
-                  checked={itemIsInList(item)}
-                />
-                
-                <span className="quantity">
-                    {item.quantity} {convertQuantityType(item.quantityType)}
-                  </span>
-                  <span className="name">&nbsp;{item.name}</span>
-              </li>
-            ))}
+            {recipe &&
+              ingredients &&
+              ingredients.map((item, i) => (
+                <li key={i}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name="ingredient"
+                      id={generateListItemString(item)}
+                      defaultChecked
+                    />
+
+                    <span>
+                      {item.quantity} {convertQuantityType(item.quantityType)}{" "}
+                      {item.ingredientName}
+                    </span>
+                  </label>
+                </li>
+              ))}
           </ul>
 
-          <button>Toevoegen aan boodschappenlijstje</button>
+          <button className="btn" onClick={() => checkListItems()} disabled={loading || addedToList}>
+            {!loading && !addedToList && ('Voeg toe aan lijstje')}
+            {loading && (<FontAwesomeIcon icon={faSpinner} spin />)}
+            {addedToList && ( <span><FontAwesomeIcon icon={faCheck} /> Toegevoegd!</span>)}
+          </button>
         </div>
         <div className="recipeOverview__content--preperation-steps">
           <h1>Let's get cooking</h1>
-          {recipe && preperationSteps && preperationSteps.map((item, i) => (
-            <div key={i} className="step">
-              <div className="number">
-                <span>{i + 1}</span>
+          {recipe &&
+            preperationSteps &&
+            preperationSteps.map((item, i) => (
+              <div key={i} className="step">
+                <div className="number">
+                  <span>{i + 1}</span>
+                </div>
+                <p>{item}</p>
               </div>
-              <p>{item}</p>
-            </div>
-          ))}
+            ))}
         </div>
       </section>
       <button className="alterRecipeButton" onClick={() => openModal(!modal)}>
@@ -119,8 +125,12 @@ const RecipeOverview = () => {
       </button>
 
       {modal && (
-        <Modal modalIsOpen={openModal}>
-          <AlterRecipe recipe={recipe} modalIsOpen={openModal} recipeId={recipeId} />
+        <Modal modalIsOpen={openModal} clickOnBackground={false}>
+          <AlterRecipe
+            recipe={recipe}
+            modalIsOpen={openModal}
+            recipeId={recipeId}
+          />
         </Modal>
       )}
     </div>

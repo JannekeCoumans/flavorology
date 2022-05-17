@@ -9,6 +9,7 @@ export { default as RecipeOverviewHeader} from 'components/RecipeOverviewHeader'
 
 // CONFIG
 export { default as APIHandler } from 'config/APIHandler';
+export { default as StorageHandler } from 'config/StorageHandler';
 export { default as RecipeSettings } from 'config/RecipeSettings';
 
 // ROUTERS
@@ -22,3 +23,4 @@ export { default as AddRecipeView} from 'views/AddRecipeView';
 export { default as HomeView} from 'views/HomeView';
 export { default as RecipeOverview} from 'views/RecipeOverview';
 export { default as RecipesView} from 'views/RecipesView';
+export { default as ShoppingListView} from 'views/ShoppingListView';

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -21,30 +21,56 @@ const SearchInput = () => {
   );
 };
 
-const scrollFunction = () => {
-if (document.getElementById("nav")) {
-  if (
-    document.body.scrollTop > 50 ||
-    document.documentElement.scrollTop > 50
-  ) {
-    document.getElementById("nav").className = "nav scrolled";
-  } else {
-    document.getElementById("nav").className = "nav";
-  }
-}
-}
+// const scrollFunction = () => {
+//   if (document.getElementById("nav")) {
+//     if (
+//       document.body.scrollTop > 10 ||
+//       document.documentElement.scrollTop > 10
+//     ) {
+//       document.getElementById("nav").className = "nav scrolled";
+//     } else {
+//       document.getElementById("nav").className = "nav";
+//     }
+//   }
+// };
 
 const Nav = () => {
-  
-  window.onscroll = () => {
-    scrollFunction();
-  };
+  const [y, setY] = useState(document.scrollingElement.scrollHeight);
+  const ref = useRef(null);
+
+  const handleNavigation = useCallback(
+    (e) => {
+      if (window.scrollY <= 0) {
+        const nav = ref.current;
+        nav.className = "nav";
+        return;
+      }
+      if (y > window.scrollY) {
+        const nav = ref.current;
+        nav.className = "nav scrolled";
+      } else if (y < window.scrollY) {
+        const nav = ref.current;
+        nav.className = "nav top";
+      }
+      setY(window.scrollY);
+    },
+    [y]
+  );
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleNavigation);
+    return () => {
+      window.removeEventListener("scroll", handleNavigation);
+    };
+  }, [handleNavigation]);
 
   return (
-    <nav id="nav" className="nav">
+    <nav id="nav" className="nav" ref={ref}>
       <div className="nav__wrapper container">
         <div className="nav__logo">
-          <Link to="/"><img src={logo} alt="Flavorology" /></Link>
+          <Link to="/">
+            <img src={logo} alt="Flavorology" />
+          </Link>
         </div>
         <div className="nav__menu">
           <Link to="/recepten">Recepten</Link>

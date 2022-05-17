@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const Modal = ({ modalIsOpen, children }) => {
+const Modal = ({ modalIsOpen, children, clickOnBackground }) => {
   useEffect(() => {
     document.body.style = "overflow-y: hidden";
 
@@ -11,7 +11,7 @@ const Modal = ({ modalIsOpen, children }) => {
 
   return (
     <div className="modal">
-      <div className="modal__bg" onClick={() => modalIsOpen(false)} />
+      <div className="modal__bg" onClick={() => clickOnBackground && modalIsOpen(false)} />
       <div className="modal__content">{children}</div>
     </div>
   );

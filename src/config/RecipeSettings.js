@@ -77,11 +77,11 @@ const RecipeSettings = {
       longName: "Mexicaans",
     },
     {
-      shortname: 'indian',
+      shortName: 'indian',
       longName: "Indiaas",
     },
     {
-      shortname: 'marrocan',
+      shortName: 'marrocan',
       longName: "Marokkaans",
     },
     {

@@ -1,5 +1,5 @@
 .nav {
-  position: relative;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -138,9 +138,18 @@
   }
 
   &.scrolled {
-    position: fixed;
+    
+  position: fixed;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
     animation: slideDownNav 0.5s ease-in-out;
+    transition: all 0.25s;
+  }
+
+  &.top {
+    
+  position: fixed;
+    animation: slideUpNav 0.5s ease-in-out;
+    transform: translateY(-100%);
     transition: all 0.25s;
   }
 }

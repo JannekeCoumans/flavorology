@@ -37,7 +37,7 @@ const convertDuration = (duration) => {
 
 const RecipeOverviewHeader = ({ item }) => {
   const {
-    name,
+    recipeName,
     duration,
     quantityPerson,
     labelTypeDish,
@@ -49,7 +49,7 @@ const RecipeOverviewHeader = ({ item }) => {
   return (
     <header className="recipeOverviewHeader">
       <div className="recipeOverviewHeader__text">
-        <h1>{name}</h1>
+        <h1>{recipeName}</h1>
         <div className="duration">{convertDuration(duration)}</div>
         <div className="quantityPerson">{quantityPerson} personen</div>
         <div className="labels">
@@ -57,11 +57,11 @@ const RecipeOverviewHeader = ({ item }) => {
             {convertLabelTypeDish(labelTypeDish)}
           </div>
           <div className="label kitchen">{convertKitchen(kitchen)}</div>
-          {healthy && <div className="label healthy">gezond gerecht</div>}
+          {healthy === 'true' && <div className="label healthy">gezond gerecht</div>}
         </div>
       </div>
       <div className="recipeOverviewHeader__image">
-        <img src={image} alt={name} />
+        <img src={image} alt={recipeName} />
       </div>
     </header>
   );

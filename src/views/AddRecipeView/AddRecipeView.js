@@ -5,15 +5,22 @@ import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const AddRecipeView = () => {
   const [recipe, setRecipe] = useState({
-    recipeName: '',
+    recipeName: "",
     quantityPerson: null,
     duration: null,
-    labelTypeDish: '',
-    kitchen: '',
+    labelTypeDish: "",
+    kitchen: "",
     healthy: false,
-    image: '',
-    ingredients: [],
-    preperationSteps: [],
+    image: "",
+    ingredients: [
+      {
+        ingredientType: "",
+        ingredientName: "",
+        quantity: null,
+        quantityType: "",
+      },
+    ],
+    preperationSteps: [""],
   });
   const [ingredientCount, setIngredientCount] = useState(1);
   const [preperationStepsCount, setPreperationStepsCount] = useState(1);
@@ -32,19 +39,19 @@ const AddRecipeView = () => {
     const input = recipe;
     if (!input.ingredients[index]) {
       input.ingredients.push({
-        ingredientType: '',
-        ingredientName: '',
+        ingredientType: "",
+        ingredientName: "",
         quantity: null,
-        quantityType: '',
+        quantityType: "",
       });
     }
-    
+
     input.ingredients[index][id] = value;
-    setRecipe(input)
+    setRecipe(input);
   };
 
   const adjustIngredientCount = (direction) => {
-    if (direction === '+') {
+    if (direction === "+") {
       setIngredientCount(ingredientCount + 1);
     } else {
       setIngredientCount(ingredientCount - 1);
@@ -55,7 +62,7 @@ const AddRecipeView = () => {
     const { value } = e.target;
     const input = recipe;
     if (!input.preperationSteps[index]) {
-      input.preperationSteps.push('');
+      input.preperationSteps.push("");
     }
 
     input.preperationSteps[index] = value;
@@ -63,7 +70,7 @@ const AddRecipeView = () => {
   };
 
   const adjustStepCount = (direction) => {
-    if (direction === '+') {
+    if (direction === "+") {
       setPreperationStepsCount(preperationStepsCount + 1);
     } else {
       setPreperationStepsCount(preperationStepsCount - 1);
@@ -74,22 +81,37 @@ const AddRecipeView = () => {
 
   const handleSubmit = () => {
     APIHandler.addRecipe(recipe);
-  }
+  };
 
   return (
     <div className="addRecipeView">
       <h1>Basis info recept</h1>
       <div className="row">
         <label htmlFor="name">Titel</label>
-        <input type="text" id="recipeName" placeholder="Titel van het recept" onChange={changeHandler}/>
+        <input
+          type="text"
+          id="recipeName"
+          placeholder="Titel van het recept"
+          onChange={changeHandler}
+        />
       </div>
       <div className="row">
         <label htmlFor="quantityPerson">Hoeveelheid personen</label>
-        <input type="number" id="quantityPerson" placeholder="Hoeveelheid personen" onChange={changeHandler}/>
+        <input
+          type="number"
+          id="quantityPerson"
+          placeholder="Hoeveelheid personen"
+          onChange={changeHandler}
+        />
       </div>
       <div className="row">
         <label htmlFor="duration">Bereidingstijd in minuten</label>
-        <input type="number" id="duration" placeholder="Bereidingstijd in minuten" onChange={changeHandler}/>
+        <input
+          type="number"
+          id="duration"
+          placeholder="Bereidingstijd in minuten"
+          onChange={changeHandler}
+        />
       </div>
       <div className="row">
         <label htmlFor="labelTypeDish">Soort gerecht</label>
@@ -148,7 +170,12 @@ const AddRecipeView = () => {
       </div>
       <div className="row">
         <label htmlFor="image">Afbeelding toevoegen</label>
-        <input type="text" id="image" placeholder="Plaats de URL van de afbeelding" onChange={changeHandler}/>
+        <input
+          type="text"
+          id="image"
+          placeholder="Plaats de URL van de afbeelding"
+          onChange={changeHandler}
+        />
       </div>
       <h1>Ingrediënten</h1>
       <div className="ingredients">
@@ -160,7 +187,11 @@ const AddRecipeView = () => {
         </div>
         {[...Array(ingredientCount)].map((elem, index, { length }) => (
           <div key={index} className="row">
-            <input type="number" id="quantity" onChange={(e) => addIngredient(e, index)} />
+            <input
+              type="number"
+              id="quantity"
+              onChange={(e) => addIngredient(e, index)}
+            />
             <select id="quantityType" onChange={(e) => addIngredient(e, index)}>
               <option disabled selected>
                 Maak een keuze
@@ -173,8 +204,15 @@ const AddRecipeView = () => {
                 );
               })}
             </select>
-            <input type="text" id="ingredientName" onChange={(e) => addIngredient(e, index)} />
-            <select id="ingredientType" onChange={(e) => addIngredient(e, index)}>
+            <input
+              type="text"
+              id="ingredientName"
+              onChange={(e) => addIngredient(e, index)}
+            />
+            <select
+              id="ingredientType"
+              onChange={(e) => addIngredient(e, index)}
+            >
               <option disabled selected>
                 Maak een keuze
               </option>
@@ -191,35 +229,41 @@ const AddRecipeView = () => {
                 <button onClick={() => adjustIngredientCount("+")}>
                   <FontAwesomeIcon icon={faPlus} />
                 </button>
-                <button onClick={() => adjustIngredientCount("-")} disabled={ingredientCount <= 1}>
+                <button
+                  onClick={() => adjustIngredientCount("-")}
+                  disabled={ingredientCount <= 1}
+                >
                   <FontAwesomeIcon icon={faMinus} />
                 </button>
               </div>
             )}
           </div>
         ))}
-        <h1>Bereidingsstappen</h1>
-        <div className="preperationSteps">
-          {[...Array(preperationStepsCount)].map((elem, index, { length }) => (
-            <div key={index} className="row">
-              <div className="stepNumber">Stap nummer {index + 1}</div>
-              <textarea onChange={(e) => addPrepStep(e, index)} />
-              {length - 1 === index && (
-                <div className="adjustIngredientCount">
-                  <button onClick={() => adjustStepCount("+")}>
-                    <FontAwesomeIcon icon={faPlus} />
-                  </button>
-                  <button onClick={() => adjustStepCount("-")} disabled={preperationStepsCount <= 1}>
-                    <FontAwesomeIcon icon={faMinus} />
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-        <button>Annuleren</button>
-        <button onClick={() => handleSubmit()}>Opslaan</button>
       </div>
+      <h1>Bereidingsstappen</h1>
+      <div className="preperationSteps">
+        {[...Array(preperationStepsCount)].map((elem, index, { length }) => (
+          <div key={index} className="row">
+            <div className="stepNumber">Stap nummer {index + 1}</div>
+            <textarea onChange={(e) => addPrepStep(e, index)} />
+            {length - 1 === index && (
+              <div className="adjustStepCount">
+                <button onClick={() => adjustStepCount("+")}>
+                  <FontAwesomeIcon icon={faPlus} />
+                </button>
+                <button
+                  onClick={() => adjustStepCount("-")}
+                  disabled={preperationStepsCount <= 1}
+                >
+                  <FontAwesomeIcon icon={faMinus} />
+                </button>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <button>Annuleren</button>
+      <button onClick={() => handleSubmit()}>Opslaan</button>
     </div>
   );
 };

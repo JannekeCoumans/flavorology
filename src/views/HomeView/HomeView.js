@@ -45,7 +45,7 @@ const HomeView = () => {
                 .splice(0, 4)
                 .map((item, i) => (
                   <Link to={`/recept/${Object.keys(allRecipes)[i]}`}>
-                    <img src={item.image || placeholderImage} alt="" />
+                    <img src={item.image || placeholderImage} alt="" loading="lazy"/>
                     <div className="bg-overlay" />
                     <div className="duration">
                       <FontAwesomeIcon icon={faClock} /> {item.duration} min

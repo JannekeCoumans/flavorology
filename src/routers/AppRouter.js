@@ -8,6 +8,7 @@ import {
   RecipeOverview,
   RecipesView,
   ScrollToTop,
+  ShoppingListView
 } from "../config/C4";
 
 const AppRouter = () => {
@@ -15,12 +16,15 @@ const AppRouter = () => {
     <Router>
       <ScrollToTop />
       <Nav />
-      <Switch>
-        <Route path="/" exact component={HomeView} />
-        <Route path="/recepten" exact component={RecipesView} />
-        <Route path="/recept-toevoegen" exact component={AddRecipeView} />
-        <Route path="/recept/:id" exact component={RecipeOverview} />
-      </Switch>
+      <div className="viewContainer">
+        <Switch>
+          <Route path="/" exact component={HomeView} />
+          <Route path="/recepten" exact component={RecipesView} />
+          <Route path="/recept-toevoegen" exact component={AddRecipeView} />
+          <Route path="/recept/:id" exact component={RecipeOverview} />
+          <Route path="/boodschappenlijstjes" exact component={ShoppingListView} />
+        </Switch>
+      </div>
     </Router>
   );
 };
