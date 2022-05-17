@@ -1,0 +1,32 @@
+.addRecipeView {
+    width: 80%;
+    margin: 4rem auto;
+  .row {
+    display: grid;
+    grid-template-columns: 250px auto;
+    gap: .5rem;
+    max-width: 650px;
+    margin-bottom: 1rem;
+
+    label {
+      margin-right: 1rem;
+    }
+
+    input, select, textarea {
+      padding: .5rem 1rem;
+    }
+  }
+
+  .ingredients {
+    .row {
+        position: relative;
+        grid-template-columns: 100px 100px 1fr auto;
+
+        .adjustIngredientCount {
+          position: absolute;
+          top: 0;
+          right: -3rem;
+        }
+    }
+  }
+}

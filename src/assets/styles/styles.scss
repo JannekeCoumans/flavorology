@@ -1,0 +1,22 @@
+// base
+
+@import "./variables";
+@import "./animations";
+@import "./base";
+@import "./functions";
+@import "./mixins";
+@import "./typography";
+@import "./utilities";
+
+// components
+@import '../../components/AlertPopup/alertPopup';
+@import '../../components/AlterRecipe/alterRecipe';
+@import '../../components/Modal/modal';
+@import '../../components/Nav/nav';
+@import '../../components/RecipeOverviewHeader/recipeOverviewHeader';
+
+// views
+@import '../../views/HomeView/homeView';
+@import '../../views/AddRecipeView/addRecipeView';
+@import '../../views/RecipeOverview/recipeOverview';
+@import '../../views/RecipesView/recipesView';

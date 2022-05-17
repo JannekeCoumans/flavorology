@@ -1,0 +1,13 @@
+body {
+  font-family: $primaryFont;
+}
+
+a {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+button, input, select, textarea {
+  font-family: $primaryFont;
+}

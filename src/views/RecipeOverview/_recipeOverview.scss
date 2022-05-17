@@ -1,0 +1,51 @@
+.recipeOverview {
+  h1 {
+    margin-bottom: 2rem;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 4rem;
+    width: 97%;
+    margin: 4rem auto 0 auto;
+
+    &--ingredients {
+      padding: 4rem;
+    }
+
+    &--preperation-steps {
+      padding: 4rem;
+
+      .step {
+        display: grid;
+        grid-template-columns: 50px auto;
+        align-items: center;
+        gap: 4rem;
+        margin-bottom: 4rem;
+
+        .number {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 50px;
+          height: 50px;
+          font-weight: 900;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+
+  .alterRecipeButton {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    border: none;
+    border-radius: .25rem;
+    font-size: 1.25rem;
+    padding: .75rem;
+    z-index: 99;
+    cursor: pointer;
+  }
+}
