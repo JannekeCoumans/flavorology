@@ -44,7 +44,7 @@ const HomeView = () => {
               Object.values(allRecipes)
                 .splice(0, 4)
                 .map((item, i) => (
-                  <Link to={`/recept/${Object.keys(allRecipes)[i]}`}>
+                  <Link key={i} to={`/recept/${Object.keys(allRecipes)[i]}`}>
                     <img src={item.image || placeholderImage} alt="" loading="lazy"/>
                     <div className="bg-overlay" />
                     <div className="duration">

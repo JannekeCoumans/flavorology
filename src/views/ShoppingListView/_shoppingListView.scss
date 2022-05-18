@@ -1,0 +1,23 @@
+.shoppingListView {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  min-height: 60vh;
+  margin: 50px auto;
+  textarea {
+    display: block;
+    width: 300px;
+    height: 500px;
+    text-transform: lowercase;
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .btn-wrapper {
+      display: flex;
+      gap: 2rem;
+    margin-top: 3rem;
+  }
+}

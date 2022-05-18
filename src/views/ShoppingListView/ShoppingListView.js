@@ -1,7 +1,81 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { StorageHandler } from "config/C4";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+
+const getList = async (callback) => {
+  const list = await StorageHandler.get("shoppinglist");
+  callback(list);
+};
 
 const ShoppingListView = () => {
-  return <h1>ShoppingListView</h1>
+  const [list, setList] = useState([]);
+  const [isCopied, setIsCopied] = useState(false);
+
+  useEffect(() => {
+    getList(setList);
+  }, [setList]);
+
+  const copyFunc = () => {
+    const boodschappenlijstje = document.getElementById("textarea").value;
+    navigator.clipboard.writeText(boodschappenlijstje);
+    setIsCopied(true);
+  };
+
+  const deleteList = () => {
+    StorageHandler.remove("shoppinglist");
+    setList([]);
+  };
+
+  if (list && list.length > 0) {
+    return (
+      <div className="shoppingListView">
+        <textarea
+          id="textarea"
+          width="200"
+          height="200"
+          defaultValue={list.map((i) => i + "\n").join("")}
+        />
+
+        <div className="btn-wrapper">
+          <button
+            className="btn"
+            onClick={() => copyFunc()}
+            disabled={isCopied || (list && list.length <= 0)}
+          >
+            {isCopied ? (
+              <span>
+                <FontAwesomeIcon icon={faCheck} /> gekopieerd!
+              </span>
+            ) : (
+              "Kopieër lijstje"
+            )}
+          </button>
+          <button
+            className="btn btn-inverse"
+            onClick={() => {
+              deleteList();
+            }}
+          >
+            Verwijder lijstje
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="shoppingListView">
+      <h4>Oeps! Hier is nog niks te zien, want...</h4>
+      <h1>Je lijstje is nog leeg!</h1>
+      <div className="btn-wrapper">
+        <Link to="/recepten" className="btn">
+          Bekijk recepten <FontAwesomeIcon icon={faArrowRight} />
+        </Link>
+      </div>
+    </div>
+  );
 };
 
 export default ShoppingListView;

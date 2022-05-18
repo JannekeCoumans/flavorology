@@ -7,7 +7,7 @@ import {
   APIHandler,
   Modal,
   RecipeOverviewHeader,
-  StorageHandler
+  StorageHandler,
 } from "config/C4";
 
 const convertQuantityType = (quantityType) => {
@@ -16,6 +16,8 @@ const convertQuantityType = (quantityType) => {
       return "stuks";
     case "gram":
       return "gram";
+    case "mililiter":
+      return "ml";
     case "teaspoon":
       return "theelepel";
     case "tablespoon":
@@ -64,13 +66,15 @@ const RecipeOverview = () => {
 
   const checkListItems = () => {
     setLoading(true);
-    const checkboxes = [...document.getElementsByName('ingredient')].filter(c => c.checked).map(c => c.id);
-    const list = StorageHandler.get('shoppinglist') || [];
-    checkboxes.map(i => list.push(i));
-    StorageHandler.set('shoppinglist', list);
+    const checkboxes = [...document.getElementsByName("ingredient")]
+      .filter((c) => c.checked)
+      .map((c) => c.id);
+    const list = StorageHandler.get("shoppinglist") || [];
+    checkboxes.map((i) => list.push(i));
+    StorageHandler.set("shoppinglist", list);
     setLoading(false);
     setAddedToList(true);
-  }
+  };
 
   return (
     <div className="recipeOverview">
@@ -100,10 +104,18 @@ const RecipeOverview = () => {
               ))}
           </ul>
 
-          <button className="btn" onClick={() => checkListItems()} disabled={loading || addedToList}>
-            {!loading && !addedToList && ('Voeg toe aan lijstje')}
-            {loading && (<FontAwesomeIcon icon={faSpinner} spin />)}
-            {addedToList && ( <span><FontAwesomeIcon icon={faCheck} /> Toegevoegd!</span>)}
+          <button
+            className="btn"
+            onClick={() => checkListItems()}
+            disabled={loading || addedToList}
+          >
+            {!loading && !addedToList && "Voeg toe aan lijstje"}
+            {loading && <FontAwesomeIcon icon={faSpinner} spin />}
+            {addedToList && (
+              <span>
+                <FontAwesomeIcon icon={faCheck} /> Toegevoegd!
+              </span>
+            )}
           </button>
         </div>
         <div className="recipeOverview__content--preperation-steps">
