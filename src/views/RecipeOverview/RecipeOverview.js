@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faCheck, faPen, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faPen, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import {
   AlterRecipe,
@@ -9,7 +9,6 @@ import {
   RecipeOverviewHeader,
   StorageHandler,
 } from "config/C4";
-import { Link } from "react-router-dom";
 
 const convertQuantityType = (quantityType) => {
   switch (quantityType) {
