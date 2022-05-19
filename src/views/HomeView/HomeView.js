@@ -21,6 +21,19 @@ const HomeView = () => {
   const placeholderImage =
     "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Begrippenlijst.svg";
 
+  const randomRecipe = (min, max) => {
+    const numbers = [];
+    for (let i = 0; i < 4; i++) {
+      const newNumber = Math.floor(Math.random() * max) + min;
+      if (numbers.length >= 1 && numbers.includes(newNumber)) {
+        i--;
+      } else {
+        numbers.push(newNumber);
+      }
+    }
+    return numbers;
+  };
+
   return (
     <div className="homeView">
       <header className="homeView__header">
@@ -41,21 +54,28 @@ const HomeView = () => {
           <h1>Wat eten we vandaag?</h1>
           <div className="homeView__recipes--items">
             {Object.values(allRecipes).length > 0 &&
-              Object.values(allRecipes)
-                .splice(0, 4)
-                .map((item, i) => (
-                  <Link key={i} to={`/recept/${Object.keys(allRecipes)[i]}`}>
-                    <img src={item.image || placeholderImage} alt="" loading="lazy"/>
+              randomRecipe(0, Object.values(allRecipes).length).map(
+                (item, i) => (
+                  <Link key={i} to={`/recept/${Object.keys(allRecipes)[item]}`}>
+                    <img
+                      src={
+                        Object.values(allRecipes)[item].image || placeholderImage
+                      }
+                      alt=""
+                      loading="lazy"
+                    />
                     <div className="bg-overlay" />
                     <div className="duration">
-                      <FontAwesomeIcon icon={faClock} /> {item.duration} min
+                      <FontAwesomeIcon icon={faClock} />{" "}
+                      {Object.values(allRecipes)[item].duration} min
                     </div>
                     <div className="favorite">
                       <FontAwesomeIcon icon={faHeart} />
                     </div>
-                    <h1>{item.recipeName}</h1>
+                    <h1>{Object.values(allRecipes)[item].recipeName}</h1>
                   </Link>
-                ))}
+                )
+              )}
           </div>
           <Link to="/recepten" className="btn">
             Bekijk alle recepten <FontAwesomeIcon icon={faArrowRight} />

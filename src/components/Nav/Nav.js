@@ -7,6 +7,7 @@ import {
   faList,
   faUser,
   faBars,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
@@ -21,21 +22,9 @@ const SearchInput = () => {
   );
 };
 
-// const scrollFunction = () => {
-//   if (document.getElementById("nav")) {
-//     if (
-//       document.body.scrollTop > 10 ||
-//       document.documentElement.scrollTop > 10
-//     ) {
-//       document.getElementById("nav").className = "nav scrolled";
-//     } else {
-//       document.getElementById("nav").className = "nav";
-//     }
-//   }
-// };
-
 const Nav = () => {
   const [y, setY] = useState(document.scrollingElement.scrollHeight);
+  const [menuOpen, setMenuOpen] = useState(false);
   const ref = useRef(null);
 
   const handleNavigation = useCallback(
@@ -64,6 +53,16 @@ const Nav = () => {
     };
   }, [handleNavigation]);
 
+  const openMenu = () => {
+    document.body.style = "overflow: hidden";
+    setMenuOpen(true);
+  };
+
+  const closeMenu = () => {
+    document.body.style = "overflow: auto";
+    setMenuOpen(false);
+  };
+
   return (
     <nav id="nav" className="nav" ref={ref}>
       <div className="nav__wrapper container">
@@ -78,8 +77,39 @@ const Nav = () => {
           <Link to="/uitproberen">Uitproberen</Link>
           <SearchInput />
         </div>
-        <div className="nav__burgermenu">
+        <button onClick={() => openMenu()} className="nav__burgermenu">
           <FontAwesomeIcon icon={faBars} />
+        </button>
+        <div className={`nav__sidemenu ${menuOpen ? "active" : "closed"}`}>
+          <div className="nav__sidemenu--wrapper">
+            <button className="close-menu" onClick={() => closeMenu()}>
+              <FontAwesomeIcon icon={faTimes} />
+            </button>
+            <Link onClick={() => closeMenu()} className="logo" to="/">
+              <img src={logo} alt="Flavorology" />
+            </Link>
+            <div className="sidemenu__items">
+              <Link onClick={() => closeMenu()} to="/">Home</Link>
+              <Link onClick={() => closeMenu()} to="/recepten">Recepten</Link>
+              <Link onClick={() => closeMenu()} to="/onlangs-toegevoegd">Onlangs toegevoegd</Link>
+              <Link onClick={() => closeMenu()} to="/uitproberen">Uitproberen</Link>
+
+              <hr />
+
+              <Link onClick={() => closeMenu()} to="/recept-toevoegen">
+              <FontAwesomeIcon icon={faPlus} /> Recept toevoegen
+              </Link>
+              <Link onClick={() => closeMenu()} to="/boodschappenlijstjes">
+                <FontAwesomeIcon icon={faList} /> Boodschappenlijstje
+              </Link>
+              <Link onClick={() => closeMenu()} to="/favorieten">
+                <FontAwesomeIcon icon={faHeart} /> Favorieten
+              </Link>
+              <Link onClick={() => closeMenu()} to="/account">
+                <FontAwesomeIcon icon={faUser} /> Account
+              </Link>
+            </div>
+          </div>
         </div>
         <div className="nav__icons">
           <Link to="/recept-toevoegen" className="icon add">

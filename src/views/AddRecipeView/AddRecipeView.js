@@ -1,7 +1,14 @@
 import React, { useState } from "react";
-import { APIHandler, RecipeSettings } from "config/C4";
+import { APIHandler, Modal, RecipeSettings } from "config/C4";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPlus,
+  faMinus,
+  faSpinner,
+  faCheck,
+  faArrowRight,
+} from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const AddRecipeView = () => {
   const [recipe, setRecipe] = useState({
@@ -24,8 +31,10 @@ const AddRecipeView = () => {
   });
   const [ingredientCount, setIngredientCount] = useState(1);
   const [preperationStepsCount, setPreperationStepsCount] = useState(1);
-  // const placeholderImage =
-  //   "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Begrippenlijst.svg";
+  const [loading, setLoading] = useState(false);
+  const [recipeSaved, setRecipeSaved] = useState(false);
+  const [savedRecipeId, setSavedRecipeId] = useState("");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const changeHandler = (e) => {
     const { id, value } = e.target;
@@ -80,7 +89,15 @@ const AddRecipeView = () => {
   };
 
   const handleSubmit = () => {
-    APIHandler.addRecipe(recipe);
+    setLoading(true);
+    APIHandler.addRecipe(recipe).then((res) => {
+      if (res && res.name) {
+        setRecipeSaved(true);
+        setSavedRecipeId(res.name);
+        setLoading(false);
+        setModalIsOpen(true);
+      }
+    });
   };
 
   return (
@@ -180,7 +197,7 @@ const AddRecipeView = () => {
       <h1>Ingrediënten</h1>
       <div className="ingredients">
         <div className="row">
-          <p>Hoeveelheid</p>
+          <p>Hoeveel</p>
           <p>Eenheid</p>
           <p>Ingrediënt</p>
           <p>Type ingrediënt</p>
@@ -190,6 +207,7 @@ const AddRecipeView = () => {
             <input
               type="number"
               id="quantity"
+              placeholder="Quantity"
               onChange={(e) => addIngredient(e, index)}
             />
             <select id="quantityType" onChange={(e) => addIngredient(e, index)}>
@@ -207,6 +225,7 @@ const AddRecipeView = () => {
             <input
               type="text"
               id="ingredientName"
+              placeholder="Ingrediënt naam"
               onChange={(e) => addIngredient(e, index)}
             />
             <select
@@ -262,8 +281,37 @@ const AddRecipeView = () => {
           </div>
         ))}
       </div>
-      <button>Annuleren</button>
-      <button onClick={() => handleSubmit()}>Opslaan</button>
+      <div className="btn-wrapper">
+        <Link to="/" className="btn btn-inverse">
+          Annuleren
+        </Link>
+        <button
+          className="btn"
+          onClick={() => handleSubmit()}
+          disabled={loading || recipeSaved}
+        >
+          {!loading && !recipeSaved && "Opslaan"}
+          {loading && <FontAwesomeIcon icon={faSpinner} spin />}
+          {recipeSaved && (
+            <span>
+              Opgeslagen! <FontAwesomeIcon icon={faCheck} />
+            </span>
+          )}
+        </button>
+      </div>
+      {modalIsOpen && (
+        <Modal modalIsOpen={setModalIsOpen} clickOnBackground={false}>
+          <div className="addRecipeModal">
+            <h1>Recept is succesvol opgeslagen</h1>
+            <Link to={`/recept/${savedRecipeId}`}>
+              Bekijk je nieuwe recept <FontAwesomeIcon icon={faArrowRight} />
+            </Link>
+            <br/>
+            <br/>
+            <div onClick={() => window.location.reload()}className="btn btn-inverse">Nog een recept toevoegen!</div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

@@ -31,8 +31,24 @@
 
       .adjustIngredientCount {
         position: absolute;
-        top: 0;
-        right: -3rem;
+        bottom: 0;
+        right: -8rem;
+
+        button {
+          border: none;
+          background-color: $yellow;
+          border: 2px solid $yellow;
+          padding: 0.25rem 1rem;
+
+          &:first-child {
+            margin-right: 1rem;
+          }
+
+          &:nth-child(2) {
+            background-color: transparent;
+            border: 2px solid $black;
+          }
+        }
       }
     }
   }
@@ -43,8 +59,88 @@
 
       .adjustStepCount {
         position: absolute;
-        top: 0;
-        right: -3rem;
+        bottom: 0;
+        right: -8rem;
+
+        button {
+          border: none;
+          background-color: $yellow;
+          border: 2px solid $yellow;
+          padding: 0.25rem 1rem;
+
+          &:first-child {
+            margin-right: 1rem;
+          }
+
+          &:nth-child(2) {
+            background-color: transparent;
+            border: 2px solid $black;
+          }
+        }
+      }
+    }
+  }
+
+  .btn-wrapper {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .addRecipeModal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+
+    a {
+      color: $yellow;
+      margin-top: 3rem;
+    }
+  }
+}
+
+@media screen and (max-width: 765px) {
+  .addRecipeView {
+    .row {
+      grid-template-columns: 1fr;
+    }
+
+    .ingredients {
+      .row {
+        grid-template-columns: 48% 48%;
+
+        .adjustIngredientCount {
+          position: absolute;
+          bottom: -2.5rem;
+          right: unset;
+          left: 0;
+        }
+      }
+      .row:first-child {
+        display: none;
+      }
+
+      .row:last-child {
+        padding-bottom: 1rem;
+        margin-bottom: 3rem;
+      }
+    }
+
+    .preperationSteps {
+      .row {
+        .adjustStepCount {
+          position: absolute;
+          bottom: -2.5rem;
+          right: unset;
+          left: 0;
+        }
+      }
+
+      .row:last-child {
+        padding-bottom: 1rem;
+        margin-bottom: 4rem;
       }
     }
   }

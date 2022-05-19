@@ -13,7 +13,11 @@ body {
 }
 
 .viewContainer {
-  padding-top: 89px;
+  padding-top: 88px;
+
+  @media screen and (max-width: 1000px) {
+    padding-top: 80px;
+  }
 }
 
 .container {

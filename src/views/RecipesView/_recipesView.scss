@@ -37,3 +37,16 @@
     }
   }
 }
+
+@media screen and (max-width: 1024px) {
+  .recipesView {
+    &__item {
+      flex: 0 0 100%;
+      margin: 0 auto;
+
+      .text {
+        padding: 2rem;
+      }
+    }
+  }
+}
