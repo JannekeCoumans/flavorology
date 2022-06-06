@@ -69,8 +69,15 @@ const RecipeOverview = () => {
     const checkboxes = [...document.getElementsByName("ingredient")]
       .filter((c) => c.checked)
       .map((c) => c.id);
+
+    const items = checkboxes.map((check) => {
+      const array = ingredients.filter((ingredient) => {
+        return ingredient.ingredientName === check;
+      });
+      return array[0];
+    });
     const list = StorageHandler.get("shoppinglist") || [];
-    checkboxes.map((i) => list.push(i));
+    items.map((i) => list.push(i));
     StorageHandler.set("shoppinglist", list);
     setLoading(false);
     setAddedToList(true);
@@ -91,7 +98,7 @@ const RecipeOverview = () => {
                     <input
                       type="checkbox"
                       name="ingredient"
-                      id={generateListItemString(item)}
+                      id={item.ingredientName}
                       defaultChecked
                     />
 

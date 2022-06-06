@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { StorageHandler } from "config/C4";
+import { RecipeSettings, StorageHandler } from "config/C4";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 const getList = async (callback) => {
   const list = await StorageHandler.get("shoppinglist");
+  const { shoppingListOrder } = RecipeSettings;
+
+  const orderForIndexVals = shoppingListOrder.slice(0).reverse();
+  list.sort((a, b) => {
+    const aIndex = -orderForIndexVals.indexOf(a.ingredientType);
+    const bIndex = -orderForIndexVals.indexOf(b.ingredientType);
+    return aIndex - bIndex;
+  });
+
+  console.log(list);
+
   callback(list);
 };
 
@@ -35,7 +46,7 @@ const ShoppingListView = () => {
           id="textarea"
           width="200"
           height="200"
-          defaultValue={list.map((i) => i + "\n").join("")}
+          defaultValue={list.map((i) => `${i.quantity} ${i.quantityType !== 'piece' ? i.quantityType : ''} ${i.ingredientName}\n`).join("")}
         />
 
         <div className="btn-wrapper">

@@ -211,9 +211,6 @@ const AddRecipeView = () => {
               onChange={(e) => addIngredient(e, index)}
             />
             <select id="quantityType" onChange={(e) => addIngredient(e, index)}>
-              <option disabled selected>
-                Maak een keuze
-              </option>
               {RecipeSettings.quantityTypes.map((type, index) => {
                 return (
                   <option key={index} value={type.shortName}>
@@ -232,9 +229,6 @@ const AddRecipeView = () => {
               id="ingredientType"
               onChange={(e) => addIngredient(e, index)}
             >
-              <option disabled selected>
-                Maak een keuze
-              </option>
               {RecipeSettings.ingredientType.map((type, index) => {
                 return (
                   <option key={index} value={type.shortName}>

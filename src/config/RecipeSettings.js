@@ -110,7 +110,10 @@ const RecipeSettings = {
       shortName: "else",
       longName: "Overig"
     }
-  ]
+  ],
+  shoppingListOrder: [
+    'vegetable', 'meat', 'bread', 'sauce', 'spices', 'doughware', 'dairy', 'else'
+  ],
 };
 
 export default RecipeSettings;
