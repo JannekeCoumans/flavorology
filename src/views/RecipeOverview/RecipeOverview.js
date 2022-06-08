@@ -27,15 +27,6 @@ const convertQuantityType = (quantityType) => {
   }
 };
 
-const generateListItemString = ({ ingredientName, quantity, quantityType }) => {
-  const quantityTypeConverted = convertQuantityType(quantityType);
-  if (quantityTypeConverted) {
-    return `${quantity} ${quantityTypeConverted} ${ingredientName}`;
-  }
-
-  return `${quantity} ${ingredientName}`;
-};
-
 const getRecipe = async (id, callback) => {
   const recipe = await APIHandler.getRecipe(id);
   recipe.ingredients.sort((a, b) =>
