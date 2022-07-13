@@ -46,7 +46,7 @@ const RecipeOverview = () => {
   const [loading, setLoading] = useState(false);
   const [addedToList, setAddedToList] = useState(false);
 
-  const { ingredients, preperationSteps } = recipe;
+  const { ingredients } = recipe;
 
   useEffect(() => {
     const { pathname } = window.location;
