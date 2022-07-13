@@ -116,7 +116,7 @@ const RecipeOverview = () => {
             )}
           </button>
         </div>
-        <div className="recipeOverview__content--preperation-steps">
+        {/* <div className="recipeOverview__content--preperation-steps">
           <h1>Let's get cooking</h1>
           {recipe &&
             preperationSteps &&
@@ -128,7 +128,7 @@ const RecipeOverview = () => {
                 <p>{item}</p>
               </div>
             ))}
-        </div>
+        </div> */}
       </section>
       <button className="alterRecipeButton" onClick={() => openModal(!modal)}>
         <FontAwesomeIcon icon={faPen} />

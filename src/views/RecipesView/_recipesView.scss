@@ -1,25 +1,46 @@
 .recipesView {
+  padding: 2rem 0 4rem;
   &__wrapper {
+    &--filter {
+      position: fixed;
+      width: 300px;
+      max-height: 100vh;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      background-color: $lightgrey;
+
+      h1 {
+        padding-bottom: 1.5rem;
+      }
+    }
+
     &--items {
       display: flex;
       flex-wrap: wrap;
       column-gap: 5%;
-      row-gap: 2rem;
+      row-gap: 3rem;
+      padding-left: calc(300px + 2rem);
+
+      .loading {
+        font-size: 2rem;
+        margin: 2rem auto 0;
+      }
     }
   }
 
   &__item {
-    display: grid;
-    grid-template-columns: 200px 1fr;
+    position: relative;
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    flex: 0 0 45%;
-    background-color: $lightgrey;
-    border-radius: 2rem;
-    overflow: hidden;
+    max-width: 280px;
 
-    .image {
+    &--background {
       width: 100%;
-      height: 100%;
+      max-height: 100%;
+      aspect-ratio: 4/5;
+      border-radius: 0.5rem;
+      overflow: hidden;
 
       img {
         width: 100%;
@@ -28,21 +49,62 @@
       }
     }
 
-    .text {
-      padding: 1rem;
+    .duration {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      background-color: rgba(0, 0, 0, 0.4);
+      color: white;
+      border-radius: 2rem;
+      padding: 0.5rem 1rem;
+      z-index: +1;
 
-      h1 {
-        font-size: 1.5rem;
+      svg {
+        margin-right: 0.5rem;
       }
+    }
+
+    .addToFavorite {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+    }
+
+    h1 {
+      font-size: 1rem;
+      margin-top: 1rem;
     }
   }
 }
 
 @media screen and (max-width: 1024px) {
   .recipesView {
+    &__wrapper {
+      &--filter {
+        position: relative;
+        top: unset;
+        left: unset;
+        width: 100%;
+        margin-bottom: 2rem;
+
+        .recipesFilter {
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
+      }
+
+      &--items {
+        padding-left: 0;
+      }
+    }
     &__item {
       flex: 0 0 100%;
+      grid-template-columns: 1fr;
       margin: 0 auto;
+
+      .image {
+        height: 200px;
+      }
 
       .text {
         padding: 2rem;

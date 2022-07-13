@@ -1,52 +1,113 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { APIHandler, RecipeSettings } from "config/C4";
+import { APIHandler, RecipeCard, RecipesFilter } from "config/C4";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faLeaf } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-const getAllRecipes = async (callBack) => {
+const getAllRecipes = async (callBack, callbackTwo, filteredRecipes) => {
   const recipes = await APIHandler.getAllRecipes();
   callBack(recipes);
+  if (Object.values(filteredRecipes).length <= 0) {
+    callbackTwo(recipes);
+  }
 };
 
 const RecipesView = () => {
   const [allRecipes, setAllRecipes] = useState({});
+  const [filteredRecipes, setFilteredRecipes] = useState({});
+  const [noneFoundError, setNoneFoundError] = useState(false);
+  const [loadingRecipes, setLoadingRecipes] = useState(false);
+  const [filters, setFilters] = useState({
+    labelTypeDish: null,
+    kitchen: null,
+    duration: null,
+    healthy: null,
+  });
 
   useEffect(() => {
-    getAllRecipes(setAllRecipes);
-  }, [setAllRecipes]);
+    getAllRecipes(setAllRecipes, setFilteredRecipes, filteredRecipes);
+  }, [setAllRecipes, filteredRecipes]);
+
+  const filterFunction = () => {
+    setNoneFoundError(false);
+    setLoadingRecipes(true);
+    let filteredItems = [...Object.values(allRecipes)];
+    Object.keys(filters).forEach((f, i) => {
+      if (Object.values(filters)[i] !== null) {
+        const items = filteredItems.filter(
+          (r) => r[f] === Object.values(filters)[i]
+        );
+        filteredItems = items;
+      }
+    });
+
+    if (filteredItems.length <= 0) {
+      setLoadingRecipes(false);
+      setNoneFoundError(true);
+    }
+    setFilteredRecipes(filteredItems);
+    setLoadingRecipes(false);
+  };
+
+  const searchFunction = (e) => {
+    const { value } = e.target;
+    let filteredItems = [...Object.values(allRecipes)];
+    if (value) {
+      setNoneFoundError(false);
+      setLoadingRecipes(true);
+      filteredItems = Object.values(filteredItems).filter(recipe => {
+        return recipe.recipeName.toLowerCase().includes(value.toLowerCase());
+      });
+      if (filteredItems.length <= 0) {
+        setLoadingRecipes(false);
+        setNoneFoundError(true);
+      }
+      setFilteredRecipes(filteredItems);
+      setLoadingRecipes(false);
+    } else if (value.length === 0) {
+      filteredItems = [...Object.values(allRecipes)];
+    }
+  }
 
   return (
     <div className="recipesView">
       <div className="recipesView__wrapper container">
-        <h1>Alle recepten</h1>
+        <div className="recipesView__wrapper--filter">
+          <h1>Filters</h1>
+          <RecipesFilter
+            filterFunction={filterFunction}
+            filters={filters}
+            setFilters={setFilters}
+            allRecipes={allRecipes}
+            filteredRecipes={filteredRecipes}
+            searchFunction={searchFunction}
+          />
+        </div>
         <div className="recipesView__wrapper--items">
-          {Object.values(allRecipes).length > 0 &&
-            Object.values(allRecipes).map((recipe, i) => {
-              const kitchenName = RecipeSettings.kitchenTypes.filter(item => item.shortName === recipe.kitchen)[0].longName;
+          {loadingRecipes && (
+            <div className="loading">
+              <FontAwesomeIcon icon={faSpinner} spin />
+            </div>
+          )}
+          {!loadingRecipes &&
+            !noneFoundError &&
+            Object.values(filteredRecipes).length > 0 &&
+            Object.values(filteredRecipes).map((recipe, i) => {
               return (
-                <Link
+                <RecipeCard
                   key={i}
-                  to={`/recept/${Object.keys(allRecipes)[i]}`}
-                  className="recipesView__item"
-                >
-                  <div className="image">
-                    <img src={recipe.image} alt="" />
-                  </div>
-                  <div className="text">
-                    <h1>{recipe.recipeName}</h1>
-                    <p>{recipe.duration} minuten</p>
-                    <p>{recipe.quantityPerson} personen</p>
-                    <p>{kitchenName}</p>
-                    {recipe.labelTypeDish === "vegetarian" && (
-                      <p>
-                        <FontAwesomeIcon icon={faLeaf} /> Vegetarisch gerecht
-                      </p>
-                    )}
-                  </div>
-                </Link>
+                  item={recipe}
+                  itemKey={Object.keys(filteredRecipes)[i]}
+                  clsn="recipesView__item"
+                />
               );
             })}
+          {noneFoundError && (
+            <h1>
+              Geen recepten gevonden met je zoekopdracht. Probeer iets anders te
+              zoeken of <Link to="/recept-toevoegen">voeg een recept toe!</Link>
+            </h1>
+          )}
         </div>
       </div>
     </div>

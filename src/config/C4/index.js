@@ -1,10 +1,14 @@
 // COMPONENTS
 
+export { default as AddToFavorite } from 'components/AddToFavorite';
 export { default as AlertPopup} from 'components/AlertPopup';
 export { default as AlterRecipe} from 'components/AlterRecipe';
+export { default as InspirationRecipes } from 'components/InspirationRecipes';
 export { default as Modal} from 'components/Modal';
 export { default as Nav} from 'components/Nav';
+export { default as RecipeCard } from 'components/RecipeCard';
 export { default as RecipeOverviewHeader} from 'components/RecipeOverviewHeader';
+export { default as RecipesFilter } from 'components/RecipesFilter';
 
 
 // CONFIG
