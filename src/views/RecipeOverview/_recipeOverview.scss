@@ -8,7 +8,7 @@
     grid-template-columns: 2fr 3fr;
     gap: 4rem;
     width: 97%;
-    margin: 4rem auto 0 auto;
+    margin: 4rem auto 4rem auto;
 
     &--ingredients {
       background-color: $lightgrey;
@@ -39,7 +39,6 @@
         grid-template-columns: 50px auto;
         align-items: center;
         gap: 4rem;
-        margin-bottom: 4rem;
 
         .number {
           display: flex;
@@ -51,6 +50,10 @@
           font-weight: 900;
           border-radius: 50%;
         }
+
+        &:not(:last-child) {
+          margin-bottom: 4rem;
+        }
       }
     }
   }
@@ -61,10 +64,28 @@
     right: 2rem;
     background-color: $yellow;
     border: none;
-    border-radius: .25rem;
+    border-radius: 0.25rem;
     font-size: 1.25rem;
-    padding: .75rem;
+    padding: 0.75rem;
     z-index: 99;
     cursor: pointer;
+  }
+
+  @media screen and (max-width: 1024px) {
+    &__content {
+      gap: 2rem;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    &__content {
+      grid-template-columns: 1fr;
+
+      &--ingredients,
+      &--preperation-steps {
+        padding: 2rem;
+      }
+    }
   }
 }

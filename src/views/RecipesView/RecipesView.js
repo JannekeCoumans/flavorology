@@ -6,15 +6,15 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const getAllRecipes = async (callBack, callbackTwo, filteredRecipes) => {
   const recipes = await APIHandler.getAllRecipes();
-  callBack(recipes);
-  if (Object.values(filteredRecipes).length <= 0) {
-    callbackTwo(recipes);
+  callBack(Object.entries(recipes));
+  if (filteredRecipes.length <= 0) {
+    callbackTwo(Object.entries(recipes));
   }
 };
 
 const RecipesView = () => {
-  const [allRecipes, setAllRecipes] = useState({});
-  const [filteredRecipes, setFilteredRecipes] = useState({});
+  const [allRecipes, setAllRecipes] = useState([]);
+  const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [noneFoundError, setNoneFoundError] = useState(false);
   const [loadingRecipes, setLoadingRecipes] = useState(false);
   const [filters, setFilters] = useState({
@@ -31,46 +31,45 @@ const RecipesView = () => {
   const filterFunction = () => {
     setNoneFoundError(false);
     setLoadingRecipes(true);
-    let filteredItems = {...allRecipes};
-    console.log(filteredItems);
+    let filteredItems = [...allRecipes];
     Object.keys(filters).forEach((f, i) => {
       if (Object.values(filters)[i] !== null) {
-        const items = (Object.values(filteredItems)).filter(
-          (r) => r[f] === Object.values(filters)[i]
+        const items = Object.values(filteredItems).filter(
+          (r) => {
+            return (r[1][f] === Object.values(filters)[i])}
         );
-        console.log(items)
         filteredItems = items;
       }
     });
 
-    // if (filteredItems.length <= 0) {
-    //   setLoadingRecipes(false);
-    //   setNoneFoundError(true);
-    // }
-    // setFilteredRecipes(filteredItems);
-    // setLoadingRecipes(false);
+    if (filteredItems.length <= 0) {
+      setLoadingRecipes(false);
+      setNoneFoundError(true);
+    }
+    setFilteredRecipes(filteredItems);
+    setLoadingRecipes(false);
   };
 
   const searchFunction = (e) => {
     const { value } = e.target;
-    let filteredItems = {...allRecipes};
-    console.log(filteredItems);
-    // if (value) {
-    //   setNoneFoundError(false);
-    //   setLoadingRecipes(true);
-    //   filteredItems = Object.values(filteredItems).filter(recipe => {
-    //     return recipe.recipeName.toLowerCase().includes(value.toLowerCase());
-    //   });
-    //   if (filteredItems.length <= 0) {
-    //     setLoadingRecipes(false);
-    //     setNoneFoundError(true);
-    //   }
-    //   setFilteredRecipes(filteredItems);
-    //   setLoadingRecipes(false);
-    // } else if (value.length === 0) {
-    //   filteredItems = [...Object.values(allRecipes)];
-    // }
-  }  
+    let filteredItems = [...allRecipes];
+    if (value) {
+      setNoneFoundError(false);
+      setLoadingRecipes(true);
+      filteredItems = filteredItems.filter((recipe) => {
+        return recipe[1].recipeName.toLowerCase().includes(value.toLowerCase());
+      });
+
+      if (filteredItems.length <= 0) {
+        setLoadingRecipes(false);
+        setNoneFoundError(true);
+      }
+      setFilteredRecipes(filteredItems);
+      setLoadingRecipes(false);
+    } else if (value.length === 0) {
+      filteredItems = [...allRecipes];
+    }
+  };
 
   return (
     <div className="recipesView">
@@ -94,13 +93,15 @@ const RecipesView = () => {
           )}
           {!loadingRecipes &&
             !noneFoundError &&
-            Object.values(filteredRecipes).length > 0 &&
-            Object.values(filteredRecipes).map((recipe, i) => {
+            filteredRecipes.length > 0 &&
+            filteredRecipes.map((recipe, i) => {
+              const recipeKey = recipe[0];
+              const recipeContent = recipe[1];
               return (
                 <RecipeCard
                   key={i}
-                  item={recipe}
-                  itemKey={Object.keys(filteredRecipes)[i]}
+                  item={recipeContent}
+                  itemKey={recipeKey}
                   clsn="recipesView__item"
                 />
               );
