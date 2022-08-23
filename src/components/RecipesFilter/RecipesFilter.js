@@ -4,40 +4,59 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { RecipeSettings } from "config/C4";
 
-const RecipesFilter = ({ filterFunction, filters, setFilters, allRecipes, searchFunction }) => {
+const RecipesFilter = ({
+  filterFunction,
+  filters,
+  setFilters,
+  allRecipes,
+  searchFunction,
+}) => {
   const [allDurations, setAllDurations] = useState([]);
   const [allKitchenTypes, setAllKitchenTypes] = useState([]);
   const [allDishTypes, setAllDishTypes] = useState([]);
 
   const getAllDurations = useCallback(() => {
     const durations = [];
-    Object.values(allRecipes).forEach((recipe) => {
-      if (durations.length === 0 || !durations.includes(recipe.duration)) {
-        durations.push(recipe.duration);
-      }
-    });
-    durations.sort((a, b) => a - b);
+    if (allRecipes.length > 0) {
+      allRecipes.forEach((recipe) => {
+        if (durations.length === 0 || !durations.includes(recipe[1].duration)) {
+          durations.push(recipe[1].duration);
+        }
+      });
+      durations.sort((a, b) => a - b);
+    }
     return durations;
   }, [allRecipes]);
 
   const getAllKitchenTypes = useCallback(() => {
     const kitchenTypes = [];
-    Object.values(allRecipes).forEach((recipe) => {
-      if (kitchenTypes.length === 0 || !kitchenTypes.includes(recipe.kitchen)) {
-        kitchenTypes.push(recipe.kitchen);
-      }
-    });
-    kitchenTypes.sort((a, b) => a - b);
-    return kitchenTypes;
+
+    if (allRecipes.length > 0) {
+      allRecipes.forEach((recipe) => {
+        if (
+          kitchenTypes.length === 0 ||
+          !kitchenTypes.includes(recipe[1].kitchen)
+        ) {
+          kitchenTypes.push(recipe[1].kitchen);
+        }
+      });
+      kitchenTypes.sort((a, b) => a - b);
+      return kitchenTypes;
+    }
   }, [allRecipes]);
 
   const getAllDishTypes = useCallback(() => {
     const dishTypes = [];
-    Object.values(allRecipes).forEach((recipe) => {
-      if (dishTypes.length === 0 || !dishTypes.includes(recipe.labelTypeDish)) {
-        dishTypes.push(recipe.labelTypeDish);
-      }
-    });
+    if (allRecipes.length > 0) {
+      allRecipes.forEach((recipe) => {
+        if (
+          dishTypes.length === 0 ||
+          !dishTypes.includes(recipe[1].labelTypeDish)
+        ) {
+          dishTypes.push(recipe[1].labelTypeDish);
+        }
+      });
+    }
     dishTypes.sort((a, b) => a - b);
     return dishTypes;
   }, [allRecipes]);
@@ -77,63 +96,74 @@ const RecipesFilter = ({ filterFunction, filters, setFilters, allRecipes, search
     <div className="recipesFilter">
       <div className="search-input">
         <FontAwesomeIcon icon={faSearch} />
-        <input type="text" placeholder="Search" onChange={searchFunction}/>
+        <input type="text" placeholder="Search" onChange={searchFunction} />
       </div>
       <label>
         Soort gerecht
-        <select id="labelTypeDish" onChange={handleChange}>
-          <option value="unset">Niks geselecteerd</option>
-          {allDishTypes.length > 0 &&
-            allDishTypes.map((type, i) => {
-              if (type && type !== "") {
-                const filteredDish = RecipeSettings.dishTypes.filter((dish) => {
-                  return dish.shortName === type;
-                })[0];
-                return (
-                  <option key={i} value={filteredDish.shortName}>
-                    {filteredDish.longName}
-                  </option>
-                );
-              }
-              return null;
-            })}
-        </select>
+        <div className="selectWrapper">
+          <select id="labelTypeDish" onChange={handleChange}>
+            <option value="unset">Niks geselecteerd</option>
+            {allDishTypes &&
+              allDishTypes.length > 0 &&
+              allDishTypes.map((type, i) => {
+                if (type && type !== "") {
+                  const filteredDish = RecipeSettings.dishTypes.filter(
+                    (dish) => {
+                      return dish.shortName === type;
+                    }
+                  )[0];
+                  return (
+                    <option key={i} value={filteredDish.shortName}>
+                      {filteredDish.longName}
+                    </option>
+                  );
+                }
+                return null;
+              })}
+          </select>
+        </div>
       </label>
       <label>
         Regio
-        <select id="kitchen" onChange={handleChange}>
-          <option value="unset">Niks geselecteerd</option>
-          {allKitchenTypes.length > 0 &&
-            allKitchenTypes.map((type, i) => {
-              const filteredKitchen = RecipeSettings.kitchenTypes.filter(
-                (kitchen) => {
-                  return kitchen.shortName === type;
-                }
-              )[0];
-              return (
-                <option key={i} value={filteredKitchen.shortName}>
-                  {filteredKitchen.longName}
-                </option>
-              );
-            })}
-        </select>
+        <div className="selectWrapper">
+          <select id="kitchen" onChange={handleChange}>
+            <option value="unset">Niks geselecteerd</option>
+            {allKitchenTypes &&
+              allKitchenTypes.length > 0 &&
+              allKitchenTypes.map((type, i) => {
+                const filteredKitchen = RecipeSettings.kitchenTypes.filter(
+                  (kitchen) => {
+                    return kitchen.shortName === type;
+                  }
+                )[0];
+                return (
+                  <option key={i} value={filteredKitchen.shortName}>
+                    {filteredKitchen.longName}
+                  </option>
+                );
+              })}
+          </select>
+        </div>
       </label>
       <label>
         Aantal minuten
-        <select id="duration" onChange={handleChange}>
-          <option value="unset">Niks geselecteerd</option>
-          {allDurations.length > 0 &&
-            allDurations.map((duration, i) => (
-              <option key={i} value={duration}>
-                {duration} minuten
-              </option>
-            ))}
-        </select>
+        <div className="selectWrapper">
+          <select id="duration" onChange={handleChange}>
+            <option value="unset">Niks geselecteerd</option>
+            {allDurations &&
+              allDurations.length > 0 &&
+              allDurations.map((duration, i) => (
+                <option key={i} value={duration}>
+                  {duration} minuten
+                </option>
+              ))}
+          </select>
+        </div>
       </label>
       <label>
-        Gezond gerecht
         <span>
-          <input type="checkbox" id="healthy" onChange={handleChange} /> Ja
+          <input type="checkbox" id="healthy" onChange={handleChange} />
+          {" "}Gezond gerecht?
         </span>
       </label>
       <button className="btn" onClick={() => resetFilters()}>

@@ -22,6 +22,8 @@
 
     .labels {
       display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 1rem;
       padding-top: 3rem;
       .label {
@@ -45,6 +47,15 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    display: flex;
+    flex-direction: column-reverse;
+
+    &__text {
+      padding: 2rem;
     }
   }
 }

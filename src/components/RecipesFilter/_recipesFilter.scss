@@ -29,5 +29,41 @@
   label {
     display: flex;
     flex-direction: column;
+    width: 100%;
+  }
+
+  .selectWrapper {
+    position: relative;
+    width: 100%;
+
+    &::after {
+      content: "+";
+      position: absolute;
+      top: calc(50% - 15px);
+      right: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 30px;
+      color: $darkgrey;
+    }
+  }
+
+  select {
+    width: 100%;
+    background-color: $white;
+    color: $darkgrey;
+    border: 1px solid $grey;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 0.5rem 0.5rem;
+  }
+
+  option {
+    color: black;
   }
 }

@@ -110,5 +110,17 @@
         padding: 2rem;
       }
     }
+  } 
+}
+
+@media screen and (max-width: 500px) {
+  .recipesView {
+    &__item {
+      max-width: unset;
+
+      &--background {
+        aspect-ratio: 6/4;
+      }
+    }
   }
 }
