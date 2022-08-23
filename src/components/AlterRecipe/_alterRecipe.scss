@@ -50,8 +50,25 @@
 
       .adjustIngredientCount {
         position: absolute;
-        top: 0;
-        right: -3rem;
+        bottom: -3rem;
+        right: 0;
+
+        button {
+          border: none;
+          background-color: $yellow;
+          color: black;
+          border: 2px solid $yellow;
+          padding: 0.25rem 1rem;
+
+          &:first-child {
+            margin-right: 1rem;
+          }
+
+          &:nth-child(2) {
+            background-color: transparent;
+            border: 2px solid $black;
+          }
+        }
       }
     }
   }
@@ -62,9 +79,122 @@
 
       .adjustStepCount {
         position: absolute;
-        top: 0;
-        right: -3rem;
+        right: 0;
+        bottom: -3rem;
+
+        button {
+          border: none;
+          background-color: $yellow;
+          color: black;
+          border: 2px solid $yellow;
+          padding: 0.25rem 1rem;
+
+          &:first-child {
+            margin-right: 1rem;
+          }
+
+          &:nth-child(2) {
+            background-color: transparent;
+            border: 2px solid $black;
+          }
+        }
       }
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    .ingredients {
+      padding-bottom: 3rem;
+      .row {
+        grid-template-columns: 60px 80px 1fr 150px;
+
+        p {
+          display: none;
+        }
+
+        .adjustIngredientCount {
+          top: unset;
+          right: 0;
+          bottom: -3rem;
+        }
+      }
+    }
+
+    .preperationSteps {
+      padding-bottom: 2rem;
+      .row {
+        .adjustStepCount {
+          top: unset;
+          right: 0;
+          bottom: -3rem;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    padding: 3rem;
+    margin: unset;
+    &__header {
+      align-items: center;
+      margin-bottom: 2rem;
+
+      h1 {
+        margin: 0;
+      }
+
+      &--buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 1rem;
+
+        button:nth-child(1) {
+          margin-right: 0;
+        }
+      }
+    }
+
+    .row {
+      grid-template-columns: 1fr;
+    }
+
+    .ingredients .row {
+      grid-template-columns: 1fr 1fr;
+      margin-bottom: 2rem;
+    }
+
+    .preperationSteps .row {
+      grid-template-columns: 100px auto;
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    padding: 2rem 1.5rem 4rem 1.5rem;
+
+    h1 {
+      font-size: 1.25rem;
+      margin: unset;
+    }
+    &__header {
+      flex-direction: column-reverse;
+      margin-bottom: 0;
+
+      &--buttons {
+        flex-direction: row;
+        margin-bottom: 1rem;
+      }
+    }
+
+    .ingredients .row {
+      grid-template-columns: 1fr;
+      margin-bottom: 2rem;
+    }
+
+    .preperationSteps .row {
+      grid-template-columns: 1fr;
     }
   }
 }
