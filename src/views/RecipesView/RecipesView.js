@@ -31,43 +31,46 @@ const RecipesView = () => {
   const filterFunction = () => {
     setNoneFoundError(false);
     setLoadingRecipes(true);
-    let filteredItems = [...Object.values(allRecipes)];
+    let filteredItems = {...allRecipes};
+    console.log(filteredItems);
     Object.keys(filters).forEach((f, i) => {
       if (Object.values(filters)[i] !== null) {
-        const items = filteredItems.filter(
+        const items = (Object.values(filteredItems)).filter(
           (r) => r[f] === Object.values(filters)[i]
         );
+        console.log(items)
         filteredItems = items;
       }
     });
 
-    if (filteredItems.length <= 0) {
-      setLoadingRecipes(false);
-      setNoneFoundError(true);
-    }
-    setFilteredRecipes(filteredItems);
-    setLoadingRecipes(false);
+    // if (filteredItems.length <= 0) {
+    //   setLoadingRecipes(false);
+    //   setNoneFoundError(true);
+    // }
+    // setFilteredRecipes(filteredItems);
+    // setLoadingRecipes(false);
   };
 
   const searchFunction = (e) => {
     const { value } = e.target;
-    let filteredItems = [...Object.values(allRecipes)];
-    if (value) {
-      setNoneFoundError(false);
-      setLoadingRecipes(true);
-      filteredItems = Object.values(filteredItems).filter(recipe => {
-        return recipe.recipeName.toLowerCase().includes(value.toLowerCase());
-      });
-      if (filteredItems.length <= 0) {
-        setLoadingRecipes(false);
-        setNoneFoundError(true);
-      }
-      setFilteredRecipes(filteredItems);
-      setLoadingRecipes(false);
-    } else if (value.length === 0) {
-      filteredItems = [...Object.values(allRecipes)];
-    }
-  }
+    let filteredItems = {...allRecipes};
+    console.log(filteredItems);
+    // if (value) {
+    //   setNoneFoundError(false);
+    //   setLoadingRecipes(true);
+    //   filteredItems = Object.values(filteredItems).filter(recipe => {
+    //     return recipe.recipeName.toLowerCase().includes(value.toLowerCase());
+    //   });
+    //   if (filteredItems.length <= 0) {
+    //     setLoadingRecipes(false);
+    //     setNoneFoundError(true);
+    //   }
+    //   setFilteredRecipes(filteredItems);
+    //   setLoadingRecipes(false);
+    // } else if (value.length === 0) {
+    //   filteredItems = [...Object.values(allRecipes)];
+    // }
+  }  
 
   return (
     <div className="recipesView">
