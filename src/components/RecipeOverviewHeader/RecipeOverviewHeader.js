@@ -1,18 +1,41 @@
 import { faClock } from "@fortawesome/free-regular-svg-icons";
-import { faCarrot, faCutlery, faDrumstickBite, faFish, faSeedling, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCarrot,
+  faCutlery,
+  faDrumstickBite,
+  faFish,
+  faSeedling,
+  faUserGroup,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
 const convertLabelTypeDish = (label) => {
   switch (label) {
     case "meat":
-      return <span><FontAwesomeIcon icon={faDrumstickBite} /> vleesgerecht</span>;
+      return (
+        <span>
+          <FontAwesomeIcon icon={faDrumstickBite} /> vleesgerecht
+        </span>
+      );
     case "fish":
-      return <span><FontAwesomeIcon icon={faFish} /> visgerecht</span>;
+      return (
+        <span>
+          <FontAwesomeIcon icon={faFish} /> visgerecht
+        </span>
+      );
     case "vegetarian":
-      return <span><FontAwesomeIcon icon={faCarrot} /> vegetarisch gerecht</span>;
+      return (
+        <span>
+          <FontAwesomeIcon icon={faCarrot} /> vegetarisch gerecht
+        </span>
+      );
     case "vegan":
-      return <span><FontAwesomeIcon icon={faSeedling} /> veganistisch gerecht</span>;
+      return (
+        <span>
+          <FontAwesomeIcon icon={faSeedling} /> veganistisch gerecht
+        </span>
+      );
     default:
       return "";
   }
@@ -22,6 +45,8 @@ const convertKitchen = (kitchen) => {
   switch (kitchen) {
     case "italian":
       return "italiaans";
+    case "french":
+      return "frans";
     default:
       return "";
   }
@@ -54,17 +79,25 @@ const RecipeOverviewHeader = ({ item }) => {
       <div className="recipeOverviewHeader__text">
         <h1>{recipeName}</h1>
         <div className="duration">
-          <FontAwesomeIcon icon={faClock}/> {convertDuration(duration)}
+          <FontAwesomeIcon icon={faClock} /> {convertDuration(duration)}
         </div>
         <div className="quantityPerson">
-          <FontAwesomeIcon icon={faUserGroup}/> {quantityPerson} personen
+          <FontAwesomeIcon icon={faUserGroup} /> {quantityPerson} personen
         </div>
         <div className="labels">
-          <div className="label dish-type">
-          {convertLabelTypeDish(labelTypeDish)}
-          </div>
-          <div className="label kitchen"><FontAwesomeIcon icon={faCutlery}/> {convertKitchen(kitchen)}</div>
-          {healthy === 'true' && <div className="label healthy">gezond gerecht</div>}
+          {labelTypeDish && (
+            <div className="label dish-type">
+              {convertLabelTypeDish(labelTypeDish)}
+            </div>
+          )}
+          {kitchen && (
+            <div className="label kitchen">
+              <FontAwesomeIcon icon={faCutlery} /> {convertKitchen(kitchen)}
+            </div>
+          )}
+          {healthy === "true" && (
+            <div className="label healthy">gezond gerecht</div>
+          )}
         </div>
       </div>
       <div className="recipeOverviewHeader__image">

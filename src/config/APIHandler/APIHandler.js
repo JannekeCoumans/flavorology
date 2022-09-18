@@ -13,6 +13,18 @@ export default APIHandler = {
         console.log(err);
       }),
 
+  addUser: (user) => {
+    const request = `${firebaseUrl}/users.json`;
+    const settings = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
+    };
+    return APIHandler.makeRequest(request, settings);
+  },
+  
+  // addUser, editUser, checkUser, getUser
+
   getAllRecipes: () => {
     const request = `${firebaseUrl}/recipes.json`;
     return APIHandler.makeRequest(request);
@@ -76,13 +88,7 @@ export default APIHandler = {
       method: "DELETE"
     };
     return APIHandler.makeRequest(request, settings);
-  }
+  },
 
-  // addFavorite: (id) => {
-  //   const request = `${firebaseUrl}/favorites.json`;
-  // },
-
-  // deleteRecipe
-  // addFavorite
-  // removeFavorite
+  // deleteRecipe,,
 };

@@ -9,13 +9,13 @@ const getList = async (callback) => {
   const { shoppingListOrder } = RecipeSettings;
 
   const orderForIndexVals = shoppingListOrder.slice(0).reverse();
-  list.sort((a, b) => {
-    const aIndex = -orderForIndexVals.indexOf(a.ingredientType);
-    const bIndex = -orderForIndexVals.indexOf(b.ingredientType);
-    return aIndex - bIndex;
-  });
-
-  console.log(list);
+  if (list) {
+    list.sort((a, b) => {
+      const aIndex = -orderForIndexVals.indexOf(a.ingredientType);
+      const bIndex = -orderForIndexVals.indexOf(b.ingredientType);
+      return aIndex - bIndex;
+    });
+  }
 
   callback(list);
 };
@@ -46,7 +46,14 @@ const ShoppingListView = () => {
           id="textarea"
           width="200"
           height="200"
-          defaultValue={list.map((i) => `${i.quantity} ${i.quantityType !== 'piece' ? i.quantityType : ''} ${i.ingredientName}\n`).join("")}
+          defaultValue={list
+            .map(
+              (i) =>
+                `${i.quantity} ${
+                  i.quantityType !== "piece" ? i.quantityType : ""
+                } ${i.ingredientName}\n`
+            )
+            .join("")}
         />
 
         <div className="btn-wrapper">

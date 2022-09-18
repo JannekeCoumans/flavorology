@@ -9,7 +9,8 @@ import {
   RecipesView,
   ScrollToTop,
   ShoppingListView,
-  ComingSoon
+  ComingSoon,
+  FavoritesView
 } from "../config/C4";
 
 const AppRouter = () => {
@@ -26,7 +27,7 @@ const AppRouter = () => {
           <Route path="/boodschappenlijstjes" exact component={ShoppingListView} />
           <Route path="/onlangs-toegevoegd" exact component={ComingSoon} />
           <Route path="/uitproberen" exact component={ComingSoon} />
-          <Route path="/favorieten" exact component={ComingSoon} />
+          <Route path="/favorieten" exact component={FavoritesView} />
           <Route path="/account" exact component={ComingSoon} />
         </Switch>
       </div>

@@ -25,6 +25,7 @@ export { default as AppRouter} from 'routers/AppRouter';
 
 export { default as AddRecipeView} from 'views/AddRecipeView';
 export { default as ComingSoon} from 'views/ComingSoon';
+export { default as FavoritesView} from 'views/FavoritesView';
 export { default as HomeView} from 'views/HomeView';
 export { default as RecipeOverview} from 'views/RecipeOverview';
 export { default as RecipesView} from 'views/RecipesView';

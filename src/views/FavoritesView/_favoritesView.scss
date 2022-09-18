@@ -1,0 +1,31 @@
+.favoritesView {
+  max-width: 1280px;
+  padding: 50px 2rem;
+  margin: 0 auto;
+
+  &__title {
+    text-align: center;
+    padding-bottom: 2rem;
+  }
+  &__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  &__noFavorites {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    min-height: 60vh;
+    text-align: center;
+    margin: 50px auto;
+  }
+
+  .btn-wrapper {
+    text-align: center;
+    margin-top: 3rem;
+  }
+}
