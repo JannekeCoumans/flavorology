@@ -13,10 +13,12 @@ button, input, select, option, textarea {
 }
 
 .inputError {
-  display: inline;
+  display: block;
   background-color: $grey;
   font-size: .75rem;
   font-weight: bold;
   border-radius: 0.25rem;
   padding: 0.25rem 1rem !important;
+  margin-bottom: 1rem;
+  margin-top: -1rem;
 }

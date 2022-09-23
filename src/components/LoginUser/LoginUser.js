@@ -76,13 +76,13 @@ const LoginUser = ({ setDisplayRegister }) => {
           onChange={changeHandler}
           required
         />
-        {emailError && (
-          <p className="inputError">
-            Er is geen account met dit e-mailadres. Log in met een ander adres
-            of creeër een nieuw account.
-          </p>
-        )}
       </div>
+      {emailError && (
+        <p className="inputError">
+          Er is geen account met dit e-mailadres. Log in met een ander adres of
+          creeër een nieuw account.
+        </p>
+      )}
       <div className="row">
         <input
           type={showPassword ? "text" : "password"}
