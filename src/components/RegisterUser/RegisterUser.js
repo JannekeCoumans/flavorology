@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-import { APIHandler, UserSettings } from 'config/C4';
+import { APIHandler, StorageHandler, UserSettings } from 'config/C4';
 
 const RegisterUser = ({ setDisplayRegister }) => {
   const [input, setInput] = useState({...UserSettings});
   const [showPassword, setShowPassword] = useState(false);
   const [overallError, setOverallError] = useState(false);
   const [emailError, setEmailError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const changeHandler = (e) => {
     setOverallError(false);
@@ -25,16 +26,22 @@ const RegisterUser = ({ setDisplayRegister }) => {
   }
 
   const registerUser = async () => {
+    setLoading(true);
     if (!checkAllInputs()) {
       setOverallError(true);
+      setLoading(false);
     } else {
       const emailExists = await APIHandler.checkEmail(input.info.email);
       if (emailExists) {
         setEmailError(true);
+        setLoading(false);
       } else {
         await APIHandler.addUser(input);
-        alert('Je account is succesvol aangemaakt. Log in met je nieuwe account.');
-        setDisplayRegister(false);
+        const userId = await APIHandler.getUserId(input.info.email);
+        StorageHandler.set('user', userId);
+        alert('Je account is succesvol aangemaakt. Je wordt nu ingelogd met je nieuwe account.');
+        setLoading(false);
+        window.location.reload();
       }
     }
   }
@@ -78,7 +85,7 @@ const RegisterUser = ({ setDisplayRegister }) => {
       {overallError && <p className="inputError">Oeps, niet alle velden zijn ingevuld.</p>}
 
       <div className="btn-wrapper">
-        <button type="submit" className="btn" onClick={() => registerUser()}>Account aanmaken</button>
+        <button type="submit" className="btn" onClick={() => registerUser()}>{loading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Account aanmaken"}</button>
         <button
           className="btn-flat"
           onClick={() => setDisplayRegister(false)}
