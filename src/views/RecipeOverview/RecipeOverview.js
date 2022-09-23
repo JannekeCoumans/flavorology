@@ -27,8 +27,8 @@ const convertQuantityType = (quantityType) => {
   }
 };
 
-const getRecipe = async (id, callback) => {
-  const recipe = await APIHandler.getRecipe(id);
+const getRecipe = async (userId, id, callback) => {
+  const recipe = await APIHandler.getRecipe(userId, id);
   recipe.ingredients.sort((a, b) =>
     a.ingredientType > b.ingredientType
       ? 1
@@ -40,6 +40,7 @@ const getRecipe = async (id, callback) => {
 };
 
 const RecipeOverview = () => {
+  const [userId] = useState(StorageHandler.get('user'));
   const [recipe, setRecipe] = useState({});
   const [recipeId, setRecipeId] = useState("");
   const [modal, openModal] = useState(false);
@@ -51,7 +52,7 @@ const RecipeOverview = () => {
   useEffect(() => {
     const { pathname } = window.location;
     const recipeId = pathname.split("/recept/")[1];
-    getRecipe(recipeId, setRecipe);
+    getRecipe(userId, recipeId, setRecipe);
     setRecipeId(recipeId);
   }, [setRecipe]);
 

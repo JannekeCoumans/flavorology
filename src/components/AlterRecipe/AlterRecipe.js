@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { AlertPopup, APIHandler, RecipeSettings } from "config/C4";
+import { AlertPopup, APIHandler, RecipeSettings, StorageHandler } from "config/C4";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
@@ -8,6 +8,7 @@ const addRecipe = (recipe, callback) => {
 };
 
 const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
+  const [userId] = useState(StorageHandler.get('user'));
   const [startedEditing, setStartedEditing] = useState(false);
   const [alertPopup, setAlertPopup] = useState(false);
   const [alteredRecipe, setAlteredRecipe] = useState(null);
@@ -91,7 +92,7 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
 
   const saveRecipe = async () => {
     setLoading(true);
-    await APIHandler.editRecipe(recipeId, alteredRecipe);
+    await APIHandler.editRecipe(userId, recipeId, alteredRecipe);
     setLoading(false);
     alert('Recept is succesvol aangepast');
     modalIsOpen(false);

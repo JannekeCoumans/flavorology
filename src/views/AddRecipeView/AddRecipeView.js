@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { APIHandler, Modal, RecipeSettings } from "config/C4";
+import { APIHandler, Modal, RecipeSettings, StorageHandler } from "config/C4";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlus,
@@ -11,6 +11,7 @@ import {
 import { Link } from "react-router-dom";
 
 const AddRecipeView = () => {
+  const [userId] = useState(StorageHandler.get('user'));
   const [recipe, setRecipe] = useState({
     recipeName: "",
     quantityPerson: null,
@@ -90,7 +91,7 @@ const AddRecipeView = () => {
 
   const handleSubmit = () => {
     setLoading(true);
-    APIHandler.addRecipe(recipe).then((res) => {
+    APIHandler.addRecipe(userId, recipe).then((res) => {
       if (res && res.name) {
         setRecipeSaved(true);
         setSavedRecipeId(res.name);
