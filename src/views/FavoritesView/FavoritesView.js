@@ -30,7 +30,7 @@ const FavoritesView = () => {
     if (!favoriteRecipes) {
       getAllFavorites(userId, setFavoriteRecipes, setLoading);
     }
-  }, [favoriteRecipes]);
+  }, [userId, favoriteRecipes]);
 
   if (loading) {
     return (
