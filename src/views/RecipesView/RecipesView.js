@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { APIHandler, RecipeCard, RecipesFilter } from "config/C4";
+import {
+  APIHandler,
+  RecipeCard,
+  RecipesFilter,
+  StorageHandler,
+} from "config/C4";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-const getAllRecipes = async (callBack, callbackTwo, filteredRecipes) => {
-  const recipes = await APIHandler.getAllRecipes();
+const getAllRecipes = async (
+  userId,
+  callBack,
+  callbackTwo,
+  filteredRecipes
+) => {
+  const recipes = await APIHandler.getAllRecipes(userId);
   callBack(Object.entries(recipes));
   if (filteredRecipes.length <= 0) {
     callbackTwo(Object.entries(recipes));
@@ -13,6 +23,7 @@ const getAllRecipes = async (callBack, callbackTwo, filteredRecipes) => {
 };
 
 const RecipesView = () => {
+  const [userId] = useState(StorageHandler.get("user"));
   const [allRecipes, setAllRecipes] = useState([]);
   const [filteredRecipes, setFilteredRecipes] = useState([]);
   const [noneFoundError, setNoneFoundError] = useState(false);
@@ -25,8 +36,8 @@ const RecipesView = () => {
   });
 
   useEffect(() => {
-    getAllRecipes(setAllRecipes, setFilteredRecipes, filteredRecipes);
-  }, [setAllRecipes, filteredRecipes]);
+    getAllRecipes(userId, setAllRecipes, setFilteredRecipes, filteredRecipes);
+  }, [userId, setAllRecipes, filteredRecipes]);
 
   const filterFunction = () => {
     setNoneFoundError(false);
@@ -34,10 +45,9 @@ const RecipesView = () => {
     let filteredItems = [...allRecipes];
     Object.keys(filters).forEach((f, i) => {
       if (Object.values(filters)[i] !== null) {
-        const items = Object.values(filteredItems).filter(
-          (r) => {
-            return (r[1][f] === Object.values(filters)[i])}
-        );
+        const items = Object.values(filteredItems).filter((r) => {
+          return r[1][f] === Object.values(filters)[i];
+        });
         filteredItems = items;
       }
     });
@@ -70,6 +80,22 @@ const RecipesView = () => {
       filteredItems = [...allRecipes];
     }
   };
+
+  if (!allRecipes.length > 0) {
+    return (
+      <div className="recipesView">
+        <div className="recipesView__noRecipes">
+          <h4>Oeps! Hier is nog niks te zien, want...</h4>
+          <h1>Je hebt nog geen recepten toegevoegd.</h1>
+          <div className="btn-wrapper">
+            <Link to="/recept-toevoegen" className="btn">
+              Recept toevoegen <FontAwesomeIcon icon={faPlus} />
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="recipesView">

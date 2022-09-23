@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { APIHandler, RecipeCard } from "config/C4";
+import { APIHandler, RecipeCard, StorageHandler } from "config/C4";
 
-const getAllRecipes = async (callback) => {
-  const allRecipes = await APIHandler.getAllRecipes();
+const getAllRecipes = async (userId, callback) => {
+  const allRecipes = await APIHandler.getAllRecipes(userId);
   callback(allRecipes);
 };
 
 const InspirationRecipes = ({ wrapper }) => {
   const [allRecipes, setAllRecipes] = useState({});
+  const [userId] = useState(StorageHandler.get('user'));
 
   useEffect(() => {
-    getAllRecipes(setAllRecipes);
-  }, [setAllRecipes]);
+    getAllRecipes(userId, setAllRecipes);
+  }, [setAllRecipes, userId]);
 
   const randomRecipe = (min, max) => {
     const numbers = [];

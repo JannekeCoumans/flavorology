@@ -11,7 +11,7 @@ const Modal = ({ modalIsOpen, children, clickOnBackground }) => {
 
   return (
     <div className="modal">
-      <div className="modal__bg" onClick={() => clickOnBackground && modalIsOpen(false)} />
+      <div className="modal__bg" onClick={() => clickOnBackground && modalIsOpen(false)} style={{cursor: clickOnBackground ? 'cursor' : 'default'}}/>
       <div className="modal__content">{children}</div>
     </div>
   );

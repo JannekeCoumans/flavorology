@@ -4,15 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
   faCircleNotch,
-  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { APIHandler, RecipeCard } from "config/C4";
+import { APIHandler, RecipeCard, StorageHandler } from "config/C4";
 
-const getAllFavorites = async (callback, setLoading) => {
-  const favorites = await APIHandler.getAllFavorites();
+const getAllFavorites = async (userId, callback, setLoading) => {
+  const favorites = await APIHandler.getAllFavorites(userId);
   if (favorites) {
-    const recipes = await APIHandler.getAllRecipes();
+    const recipes = await APIHandler.getAllRecipes(userId);
     const favoriteRecipes = Object.values(favorites).map((favorite) =>
       Object.entries(recipes).filter((recipe) => recipe[0] === favorite)
     );
@@ -23,12 +22,13 @@ const getAllFavorites = async (callback, setLoading) => {
 };
 
 const FavoritesView = () => {
+  const [userId] = useState(StorageHandler.get('user'));
   const [favoriteRecipes, setFavoriteRecipes] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!favoriteRecipes) {
-      getAllFavorites(setFavoriteRecipes, setLoading);
+      getAllFavorites(userId, setFavoriteRecipes, setLoading);
     }
   }, [favoriteRecipes]);
 

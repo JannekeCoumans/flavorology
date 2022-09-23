@@ -15,5 +15,11 @@
     background-color: white;
     text-align: center;
     padding: 3rem;
+
+    .btn-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      padding-top: 2rem;
+    }
   }
 }
