@@ -3,38 +3,39 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as faHeartRegular } from "@fortawesome/free-regular-svg-icons";
 
-import { APIHandler } from "config/C4";
+import { APIHandler, StorageHandler } from "config/C4";
 
-const checkFavorite = async (id, callback) => {
-  const result = await APIHandler.checkFavorite(id);
+const checkFavorite = async (userId, itemId, callback) => {
+  const result = await APIHandler.checkFavorite(userId, itemId);
   if (result) {
     callback(result);
   }
   return;
 };
 
-const handleFavoriteClick = async (id, bool, callback) => {
+const handleFavoriteClick = async (userId, itemId, bool, callback) => {
   if (bool) {
-    await APIHandler.removeFavorite(id);
+    await APIHandler.removeFavorite(userId, itemId);
     callback(false);
   } else {
-    await APIHandler.addFavorite(id);
+    await APIHandler.addFavorite(userId, itemId);
     callback(true);
   }
 }
 
 const AddToFavorite = ({ itemId }) => {
+  const [userId] = useState(StorageHandler.get('user'));
   const [isFavorited, setIsFavorited] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    checkFavorite(itemId, setIsFavorited);
-  }, [itemId, setIsFavorited]);
+    checkFavorite(userId, itemId, setIsFavorited);
+  }, [userId, itemId, setIsFavorited]);
 
   return (
     <div
       className="addToFavorite"
-      onClick={() => handleFavoriteClick(itemId, isFavorited, setIsFavorited)}
+      onClick={() => handleFavoriteClick(userId, itemId, isFavorited, setIsFavorited)}
       onMouseOver={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

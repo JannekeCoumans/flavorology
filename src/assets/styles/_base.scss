@@ -28,6 +28,10 @@ body {
   margin-right: auto;
 }
 
+button {
+  cursor: pointer;
+}
+
 .btn {
   display: inline-block;
   background-color: $yellow;
@@ -75,6 +79,13 @@ body {
 .btn-inverse {
   border: 2px solid $black;
   background-color: transparent;
+}
+
+.btn-flat {
+  background-color: transparent;
+  font-weight: bold;
+  text-decoration: underline;
+  border: none;
 }
 
 .loading {

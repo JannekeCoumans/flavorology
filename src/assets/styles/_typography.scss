@@ -11,3 +11,12 @@ a {
 button, input, select, option, textarea {
   font-family: $primaryFont;
 }
+
+.inputError {
+  display: inline;
+  background-color: $grey;
+  font-size: .75rem;
+  font-weight: bold;
+  border-radius: 0.25rem;
+  padding: 0.25rem 1rem !important;
+}

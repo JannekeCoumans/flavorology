@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { InspirationRecipes } from "config/C4";
+import { APIHandler, InspirationRecipes, StorageHandler } from "config/C4";
+
+const getAllRecipes = async (userId, callback) => {
+  const allRecipes = await APIHandler.getAllRecipes(userId);
+  callback(allRecipes);
+}
 
 const HomeView = () => {
+  const [userId] = useState(StorageHandler.get("user"));
+  const [allRecipes, setAllRecipes] = useState(null);
+
+  useEffect(() => {
+    if (!allRecipes) {
+      getAllRecipes(userId, setAllRecipes);
+    }
+  }, [userId, allRecipes, setAllRecipes]);
+
   return (
     <div className="homeView">
       <header className="homeView__header">
@@ -20,19 +34,25 @@ const HomeView = () => {
           </div>
         </div>
       </header>
-      <div className="homeView__inspiration">
-        <div className="homeView__inspiration--wrapper container">
-          <h1 className="homeView__inspiration--title">Wat eten we vandaag?</h1>
-          <p>Geen idee wat je wilt eten vandaag? Bekijk één van de willekeurig gekozen recepten hieronder, wellicht brengt je dat op ideeën.</p>
+      {allRecipes && Object.values(allRecipes).length > 0 && (
+        <div className="homeView__inspiration">
+          <div className="homeView__inspiration--wrapper container">
+            <h1 className="homeView__inspiration--title">
+              Wat eten we vandaag?
+            </h1>
+            <p>
+              Geen idee wat je wilt eten vandaag? Bekijk één van de willekeurig
+              gekozen recepten hieronder, wellicht brengt je dat op ideeën.
+            </p>
 
-          <InspirationRecipes />
-          {/* <InspirationRecipes wrapper='homeView__recipes--items' /> */}
+            <InspirationRecipes />
 
-          <Link to="/recepten" className="btn">
-            Bekijk alle recepten <FontAwesomeIcon icon={faArrowRight} />
-          </Link>
+            <Link to="/recepten" className="btn">
+              Bekijk alle recepten <FontAwesomeIcon icon={faArrowRight} />
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

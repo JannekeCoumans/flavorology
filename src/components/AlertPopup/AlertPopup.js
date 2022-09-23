@@ -13,8 +13,14 @@ const AlertPopup = ({
       <div className="alertPopup__content">
         <h1>{title}</h1>
         <p>{text}</p>
-        <button onClick={cancelFunction}>{cancelText}</button>
-        <button onClick={continueFunction}>{continueText}</button>
+        <div className="btn-wrapper">
+          <button className="btn" onClick={cancelFunction}>
+            {cancelText}
+          </button>
+          <button className="btn btn-inverse" onClick={continueFunction}>
+            {continueText}
+          </button>
+        </div>
       </div>
     </div>
   );

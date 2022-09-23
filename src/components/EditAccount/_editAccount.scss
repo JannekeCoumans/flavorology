@@ -1,0 +1,55 @@
+.editAccount {
+  padding: 4rem;
+  h1 {
+    text-align: center;
+    padding-bottom: 2rem;
+  }
+
+  &__userInfo {
+    padding: 2rem 0;
+  }
+
+  .row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    align-items: center;
+    max-width: 650px;
+    margin: 0 auto;
+
+    &:not(:last-child) {
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    input {
+      padding: 0.5rem 1rem;
+    }
+
+    .togglePasswordVisibility {
+      position: absolute;
+      top: calc(50% - 15px);
+      right: -38px;
+      background-color: $lightyellow;
+      color: $black;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 0.25rem;
+      transition: 0.2s;
+
+      &:hover {
+        background-color: $yellow;
+      }
+    }
+  }
+
+  .btn-wrapper {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+}

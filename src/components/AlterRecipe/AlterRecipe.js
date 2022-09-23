@@ -49,7 +49,6 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
       quantity: null,
       quantityType: "",
     });
-    console.log(obj);
     setAlteredRecipe({...obj});
   }
 
