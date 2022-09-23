@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
   faCircleNotch,
-  faSpinner,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { APIHandler, RecipeCard } from "config/C4";
