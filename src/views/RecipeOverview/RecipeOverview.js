@@ -54,7 +54,7 @@ const RecipeOverview = () => {
     const recipeId = pathname.split("/recept/")[1];
     getRecipe(userId, recipeId, setRecipe);
     setRecipeId(recipeId);
-  }, [setRecipe]);
+  }, [userId, setRecipe]);
 
   const checkListItems = () => {
     setLoading(true);
