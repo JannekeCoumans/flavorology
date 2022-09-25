@@ -1,6 +1,6 @@
 .loginView {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr minmax(400px, 1fr);
   width: 100vw;
   height: 100vh;
 
@@ -15,6 +15,7 @@
       ),
       url("../../assets/images/header.jpg");
     background-size: cover;
+    background-position: center;
     padding: 4rem;
 
     &--logo {
@@ -92,6 +93,31 @@
       gap: 1rem;
       max-width: 400px;
       padding-top: 1rem;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    &__image {
+      padding: 2rem;
+      &--logo {
+        width: 100%;
+      }
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    grid-template-columns: 1fr;
+
+    &__image {
+      display: none;
+    }
+
+    &__content {
+      padding: 2rem;
+
+      .togglePasswordVisibility {
+        right: 0.5rem;
+      }
     }
   }
 }

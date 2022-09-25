@@ -122,4 +122,38 @@
       }
     }
   }
+
+  @media screen and (max-width: 675px) {
+    &__overview {
+      &--userInfo {
+        p.password {
+          .togglePasswordVisibility {
+            right: 0;
+          }
+
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    &__overview {
+      &--editAccount {
+        padding-top: 2rem;
+      }
+      &--userInfo {
+        padding-top: 2rem;
+        p {
+          grid-template-columns: 1fr;
+          span {
+            padding-bottom: .5rem;
+          }
+
+          .togglePasswordVisibility {
+            bottom: 1rem;
+          }
+        }
+      }
+    }
+  }
 }

@@ -55,7 +55,7 @@ const AppRouter = () => {
           ) : (
             <>
               <Route path="/" exact component={LoginView} />
-              <Route path="*" component={LoginRequiredView} />
+              {window.location.pathname !== '/' && (<Route path="*" component={LoginRequiredView} />)}
             </>
           )}
         </Switch>
