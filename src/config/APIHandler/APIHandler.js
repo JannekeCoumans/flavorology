@@ -130,5 +130,17 @@ export default APIHandler = {
     return APIHandler.makeRequest(request, settings);
   },
 
+  getAllIngredients: async (userId) => {
+    const request = `${firebaseUrl}/users/${userId}/recipes.json`;
+    const allIngredientArrays = Object.values(await APIHandler.makeRequest(request)).map(recipe => recipe.ingredients);
+    const ingredients = [];
+    allIngredientArrays.map(item => item.forEach(ingredient => {
+      if (!ingredients.includes(ingredient.ingredientName.toLowerCase())) {
+        ingredients.push(ingredient.ingredientName.toLowerCase());
+      }
+    }));
+    return ingredients;
+  },
+
   // deleteRecipe,,
 };
