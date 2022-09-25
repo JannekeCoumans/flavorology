@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { APIHandler, Modal, RecipeSettings, StorageHandler } from "config/C4";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,8 +10,13 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
+const getAllIngredients = async (userId, callback) => {
+  const allIngredients = await APIHandler.getAllIngredients(userId);
+  callback(allIngredients);
+};
+
 const AddRecipeView = () => {
-  const [userId] = useState(StorageHandler.get('user'));
+  const [userId] = useState(StorageHandler.get("user"));
   const [recipe, setRecipe] = useState({
     recipeName: "",
     quantityPerson: null,
@@ -30,6 +35,7 @@ const AddRecipeView = () => {
     ],
     preperationSteps: [""],
   });
+  const [allIngredients, setAllIngredients] = useState(null);
   const [ingredientCount, setIngredientCount] = useState(1);
   const [preperationStepsCount, setPreperationStepsCount] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -56,7 +62,12 @@ const AddRecipeView = () => {
       });
     }
 
-    input.ingredients[index][id] = value;
+    if (!id) {
+      input.ingredients[index].ingredientName = value.toLowerCase();
+    } else {
+      input.ingredients[index][id] = value;
+    }
+
     setRecipe(input);
   };
 
@@ -101,6 +112,12 @@ const AddRecipeView = () => {
     });
   };
 
+  useEffect(() => {
+    if (!allIngredients) {
+      getAllIngredients(userId, setAllIngredients);
+    }
+  }, [userId, allIngredients, setAllIngredients]);
+
   return (
     <div className="addRecipeView">
       <h1>Basis info recept</h1>
@@ -133,8 +150,12 @@ const AddRecipeView = () => {
       </div>
       <div className="row">
         <label htmlFor="labelTypeDish">Soort gerecht</label>
-        <select id="labelTypeDish" onChange={changeHandler}>
-          <option disabled selected>
+        <select
+          id="labelTypeDish"
+          defaultValue={"default"}
+          onChange={changeHandler}
+        >
+          <option value={"default"} disabled>
             Maak een keuze
           </option>
           {RecipeSettings.dishTypes.map((type, index) => {
@@ -148,8 +169,8 @@ const AddRecipeView = () => {
       </div>
       <div className="row">
         <label htmlFor="kitchen">Afkomst van het gerecht</label>
-        <select id="kitchen" onChange={changeHandler}>
-          <option disabled selected>
+        <select id="kitchen" defaultValue={"default"} onChange={changeHandler}>
+          <option value={"default"} disabled>
             Maak een keuze
           </option>
           {RecipeSettings.kitchenTypes.map((type, index) => {
@@ -211,7 +232,14 @@ const AddRecipeView = () => {
               placeholder="Quantity"
               onChange={(e) => addIngredient(e, index)}
             />
-            <select id="quantityType" onChange={(e) => addIngredient(e, index)}>
+            <select
+              id="quantityType"
+              defaultValue={"default"}
+              onChange={(e) => addIngredient(e, index)}
+            >
+              <option value={"default"} disabled>
+                Maak een keuze
+              </option>
               {RecipeSettings.quantityTypes.map((type, index) => {
                 return (
                   <option key={index} value={type.shortName}>
@@ -221,15 +249,25 @@ const AddRecipeView = () => {
               })}
             </select>
             <input
-              type="text"
-              id="ingredientName"
-              placeholder="Ingrediënt naam"
+              list="ingredientenList"
+              placeholder="Start met typen om te zoeken"
               onChange={(e) => addIngredient(e, index)}
             />
+            <datalist id="ingredientenList">
+              {allIngredients &&
+                allIngredients.map((ingredient, i) => (
+                  <option key={i}>{ingredient}</option>
+                ))
+              }
+            </datalist>
             <select
               id="ingredientType"
+              defaultValue={"default"}
               onChange={(e) => addIngredient(e, index)}
             >
+              <option value={"default"} disabled>
+                Maak een keuze
+              </option>
               {RecipeSettings.ingredientType.map((type, index) => {
                 return (
                   <option key={index} value={type.shortName}>
@@ -301,9 +339,14 @@ const AddRecipeView = () => {
             <Link to={`/recept/${savedRecipeId}`}>
               Bekijk je nieuwe recept <FontAwesomeIcon icon={faArrowRight} />
             </Link>
-            <br/>
-            <br/>
-            <div onClick={() => window.location.reload()}className="btn btn-inverse">Nog een recept toevoegen!</div>
+            <br />
+            <br />
+            <div
+              onClick={() => window.location.reload()}
+              className="btn btn-inverse"
+            >
+              Nog een recept toevoegen!
+            </div>
           </div>
         </Modal>
       )}

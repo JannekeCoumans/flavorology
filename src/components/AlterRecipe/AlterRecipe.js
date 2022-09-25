@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { AlertPopup, APIHandler, RecipeSettings, StorageHandler } from "config/C4";
+import {
+  AlertPopup,
+  APIHandler,
+  RecipeSettings,
+  StorageHandler,
+} from "config/C4";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
@@ -7,8 +12,14 @@ const addRecipe = (recipe, callback) => {
   callback(recipe);
 };
 
+const getAllIngredients = async (userId, callback) => {
+  const allIngredients = await APIHandler.getAllIngredients(userId);
+  callback(allIngredients);
+};
+
 const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
-  const [userId] = useState(StorageHandler.get('user'));
+  const [userId] = useState(StorageHandler.get("user"));
+  const [allIngredients, setAllIngredients] = useState(null);
   const [startedEditing, setStartedEditing] = useState(false);
   const [alertPopup, setAlertPopup] = useState(false);
   const [alteredRecipe, setAlteredRecipe] = useState(null);
@@ -16,7 +27,10 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
 
   useEffect(() => {
     addRecipe(recipe, setAlteredRecipe);
-  }, [alteredRecipe, setAlteredRecipe, recipe]);
+    if (!allIngredients) {
+      getAllIngredients(userId, setAllIngredients);
+    }
+  }, [userId, allIngredients, setAllIngredients, alteredRecipe, setAlteredRecipe, recipe]);
 
   const changeHandler = (e) => {
     if (!startedEditing) setStartedEditing(true);
@@ -38,7 +52,12 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
       });
     }
 
-    input.ingredients[index][id] = value;
+    if (!id) {
+      input.ingredients[index].ingredientName = value.toLowerCase();
+    } else {
+      input.ingredients[index][id] = value;
+    }
+    
     setAlteredRecipe(input);
   };
 
@@ -50,8 +69,8 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
       quantity: null,
       quantityType: "",
     });
-    setAlteredRecipe({...obj});
-  }
+    setAlteredRecipe({ ...obj });
+  };
 
   const adjustIngredientCount = (direction) => {
     const obj = alteredRecipe;
@@ -59,15 +78,15 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
       addEmptyIngredient();
     } else {
       obj.ingredients.pop();
-      setAlteredRecipe({...obj});
+      setAlteredRecipe({ ...obj });
     }
   };
 
   const addEmptyPrepStep = () => {
     const obj = alteredRecipe;
     obj.preperationSteps.push("");
-    setAlteredRecipe({...obj});
-  }
+    setAlteredRecipe({ ...obj });
+  };
 
   const addPrepStep = (e, index) => {
     const { value } = e.target;
@@ -86,7 +105,7 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
       addEmptyPrepStep();
     } else {
       obj.preperationSteps.pop();
-      setAlteredRecipe({...obj});
+      setAlteredRecipe({ ...obj });
     }
   };
 
@@ -94,7 +113,7 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
     setLoading(true);
     await APIHandler.editRecipe(userId, recipeId, alteredRecipe);
     setLoading(false);
-    alert('Recept is succesvol aangepast');
+    alert("Recept is succesvol aangepast");
     modalIsOpen(false);
   };
 
@@ -116,16 +135,13 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
           <h1>Recept aanpassen</h1>
           <div className="alterRecipe__header--buttons">
             <button className="btn" onClick={() => saveRecipe()}>
-              {loading ? (
-                <FontAwesomeIcon icon={faSpinner} spin />
-              ) : (
-                'Opslaan'
-              )}
+              {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Opslaan"}
             </button>
             <button
               className="btn btn-inverse"
               onClick={() => {
-                startedEditing ? setAlertPopup(true) : modalIsOpen(false)}}
+                startedEditing ? setAlertPopup(true) : modalIsOpen(false);
+              }}
             >
               Annuleren
             </button>
@@ -168,9 +184,9 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
             <select
               id="labelTypeDish"
               onChange={changeHandler}
-              value={labelTypeDish}
+              defaultValue={labelTypeDish || "default"}
             >
-              <option disabled selected>
+              <option value={"default"} disabled>
                 Maak een keuze
               </option>
               {RecipeSettings.dishTypes.map((type, index) => {
@@ -184,8 +200,8 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
           </div>
           <div className="row">
             <label htmlFor="kitchen">Afkomst van het gerecht</label>
-            <select id="kitchen" onChange={changeHandler} value={kitchen}>
-              <option disabled selected>
+            <select id="kitchen" onChange={changeHandler} defaultValue={kitchen || "default"}>
+            <option value={"default"} disabled>
                 Maak een keuze
               </option>
               {RecipeSettings.kitchenTypes.map((type, index) => {
@@ -242,7 +258,7 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
               <p>Ingrediënt</p>
               <p>Type ingrediënt</p>
             </div>
-            {ingredients && ingredients.length > 0 ?
+            {ingredients && ingredients.length > 0 ? (
               ingredients.map((item, index, { length }) => (
                 <div key={index} className="row">
                   <input
@@ -254,9 +270,9 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
                   <select
                     id="quantityType"
                     onChange={(e) => addIngredient(e, index)}
-                    defaultValue={item.quantityType}
+                    defaultValue={item.quantityType || "default"}
                   >
-                    <option disabled selected>
+                    <option value={"default"} disabled>
                       Maak een keuze
                     </option>
                     {RecipeSettings.quantityTypes.map((type, index) => {
@@ -268,17 +284,22 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
                     })}
                   </select>
                   <input
-                    type="text"
-                    id="ingredientName"
+                    list="ingredientenList"
+                    placeholder={item.ingredientName.toLowerCase()}
                     onChange={(e) => addIngredient(e, index)}
-                    defaultValue={item.ingredientName}
                   />
+                  <datalist id="ingredientenList">
+                    {allIngredients &&
+                      allIngredients.map((ingredient, i) => (
+                        <option key={i}>{ingredient}</option>
+                      ))}
+                  </datalist>
                   <select
                     id="ingredientType"
                     onChange={(e) => addIngredient(e, index)}
-                    defaultValue={item.ingredientType}
+                    defaultValue={item.ingredientType || "default"}
                   >
-                    <option disabled selected>
+                    <option value="default" disabled>
                       Maak een keuze
                     </option>
                     {RecipeSettings.ingredientType.map((type, index) => {
@@ -300,7 +321,10 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
                     </div>
                   )}
                 </div>
-              )) : <div/>}
+              ))
+            ) : (
+              <div />
+            )}
           </div>
           <h1>Bereidingsstappen</h1>
           <div className="preperationSteps">
@@ -344,10 +368,7 @@ const AlterRecipe = ({ recipe, modalIsOpen, recipeId }) => {
     );
   }
 
-  return (
-    
-    <div className="alterRecipe"/>
-  )
+  return <div className="alterRecipe" />;
 };
 
 export default AlterRecipe;
