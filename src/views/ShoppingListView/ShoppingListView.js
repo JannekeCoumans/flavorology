@@ -26,7 +26,7 @@ const getShoppingListItems = async (
     const allListItems = list.map((recipe) => recipe.items).flat();
 
     const sortedList = [];
-    allListItems.map((item) => {
+    allListItems.forEach((item) => {
       if (
         !sortedList.filter(
           (i) =>
