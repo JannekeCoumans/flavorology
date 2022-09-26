@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faPen, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faCheck, faPen, faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import {
+  AddToShoppingList,
   AlterRecipe,
   APIHandler,
+  CheckShoppingList,
   Modal,
   RecipeOverviewHeader,
   StorageHandler,
@@ -62,15 +65,19 @@ const RecipeOverview = () => {
       .filter((c) => c.checked)
       .map((c) => c.id);
 
-    const items = checkboxes.map((check) => {
+    const recipeToAdd = {
+      recipeId,
+      items: [],
+    }
+
+    recipeToAdd.items = checkboxes.map((check) => {
       const array = ingredients.filter((ingredient) => {
         return ingredient.ingredientName === check;
       });
       return array[0];
     });
-    const list = StorageHandler.get("shoppinglist") || [];
-    items.map((i) => list.push(i));
-    StorageHandler.set("shoppinglist", list);
+
+    AddToShoppingList(recipeToAdd);
     setLoading(false);
     setAddedToList(true);
   };
@@ -106,16 +113,17 @@ const RecipeOverview = () => {
           <button
             className="btn"
             onClick={() => checkListItems()}
-            disabled={loading || addedToList}
+            disabled={loading || CheckShoppingList(recipeId)}
           >
-            {!loading && !addedToList && "Voeg toe aan lijstje"}
-            {loading && <FontAwesomeIcon icon={faSpinner} spin />}
-            {addedToList && (
+            {!loading && !CheckShoppingList(recipeId) && "Voeg toe aan lijstje"}
+            {loading && <FontAwesomeIcon className="loader" icon={faSpinner} spin />}
+            {CheckShoppingList(recipeId) && (
               <span>
                 <FontAwesomeIcon icon={faCheck} /> Toegevoegd!
               </span>
             )}
           </button>
+          {CheckShoppingList(recipeId) && <Link className="btn-flat check-list" to="/boodschappenlijstjes">Bekijk je lijstje <FontAwesomeIcon icon={faArrowRight} /></Link>}
         </div>
         <div className="recipeOverview__content--preperation-steps">
           <h1>Let's get cooking</h1>

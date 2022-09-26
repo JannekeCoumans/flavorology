@@ -72,7 +72,30 @@
 
     h1 {
       font-size: 1rem;
-      margin-top: 1rem;
+      margin: 1rem 0;
+    }
+
+    .addToList {
+      background-color: $yellow;
+      color: $black;
+      font-weight: bold;
+      border: none;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+      margin-top: auto;
+      transition: 0.2s;
+
+      svg {
+        padding-left: .25rem;
+      }
+
+      &:disabled {
+        cursor: default;
+      }
+  
+      &:not(:disabled):hover {
+        background-color: $lightyellow;
+      }
     }
   }
 

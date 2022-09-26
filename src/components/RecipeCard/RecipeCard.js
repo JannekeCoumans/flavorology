@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 
-import { AddToFavorite } from "config/C4";
+import { AddToFavorite, AddToShoppingList, CheckShoppingList } from "config/C4";
+import { faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const RecipeCard = ({ item, itemKey, clsn }) => {
   const placeholderImage =
@@ -21,6 +22,23 @@ const RecipeCard = ({ item, itemKey, clsn }) => {
       <h1>
         <Link to={`/recept/${itemKey}`}>{item.recipeName}</Link>
       </h1>
+      <button
+        className="addToList"
+        onClick={() =>
+          AddToShoppingList({ recipeId: itemKey, items: item.ingredients })
+        }
+        disabled={CheckShoppingList(itemKey)}
+      >
+        {CheckShoppingList(itemKey) ? (
+          <span>
+            toegevoegd <FontAwesomeIcon icon={faCheck} />
+          </span>
+        ) : (
+          <span>
+            lijstje <FontAwesomeIcon icon={faPlus} />
+          </span>
+        )}
+      </button>
     </div>
   );
 };

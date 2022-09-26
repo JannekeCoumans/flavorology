@@ -15,7 +15,9 @@ export { default as RegisterUser } from 'components/RegisterUser';
 
 
 // CONFIG
+export { default as AddToShoppingList } from 'config/AddToShoppingList';
 export { default as APIHandler } from 'config/APIHandler';
+export { default as CheckShoppingList } from 'config/CheckShoppingList';
 export { default as StorageHandler } from 'config/StorageHandler';
 export { default as RecipeSettings } from 'config/RecipeSettings';
 export { default as UserSettings } from 'config/UserSettings';

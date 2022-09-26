@@ -77,6 +77,10 @@
       margin-top: auto;
     }
 
+    .addToList {
+      display: none;
+    }
+
     &:hover {
       transform: scale(1.02);
     }

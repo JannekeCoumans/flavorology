@@ -12,6 +12,10 @@ button, input, select, option, textarea {
   font-family: $primaryFont;
 }
 
+input, select, option, textarea {
+  font-size: 1rem;
+}
+
 .inputError {
   display: block;
   background-color: $grey;

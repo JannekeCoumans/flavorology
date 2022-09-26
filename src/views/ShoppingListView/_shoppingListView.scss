@@ -1,23 +1,140 @@
 .shoppingListView {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 400px auto;
+  align-items: start;
   justify-content: center;
-  width: 80%;
-  min-height: 60vh;
-  margin: 50px auto;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  &__overviewRecipes {
+    width: 100%;
+    max-height: 100vh;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    background-color: $lightgrey;
+
+    h3 {
+      padding-bottom: 1rem;
+    }
+
+    &--items {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .overViewRecipes__items--item {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      background-color: white;
+      border-radius: 0.25rem;
+      overflow: hidden;
+
+      .image {
+        width: 150px;
+        min-height: 100px;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        max-width: 200px;
+        padding: 1rem;
+
+        p {
+          font-size: 0.8rem;
+        }
+
+        button {
+          padding-top: 1rem;
+          svg {
+            padding-left: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    padding-left: 3rem;
+  }
   textarea {
     display: block;
-    width: 300px;
+    width: 400px;
     height: 500px;
     text-transform: lowercase;
     padding: 1rem;
-    margin-bottom: 2rem;
   }
 
   .btn-wrapper {
-      display: flex;
-      gap: 2rem;
-    margin-top: 3rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-top: 2rem;
+  }
+
+  &-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    min-height: 60vh;
+    margin: 50px auto;
+  }
+
+  @media screen and (max-width: 930px) {
+    &__content {
+      padding-left: 1rem;
+
+      textarea {
+        width: 300px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    grid-template-columns: 1fr;
+
+    &__overviewRecipes {
+      margin-bottom: 2rem;
+      &--items {
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        .text {
+          max-width: unset !important;
+        }
+      }
+    }
+
+    &__content {
+      align-items: center;
+      padding-left: 0;
+
+      .btn-wrapper {
+       justify-content: center;
+      }
+    }
+  }
+
+  @media screen and (max-width: 576px) {
+    &__overviewRecipes {
+      padding: 1.5rem;
+      .overViewRecipes__items {
+        &--item {
+          grid-template-columns: 100px 1fr;
+          .image {
+            width: 100px;
+          }
+        }
+      }
+    }
   }
 }

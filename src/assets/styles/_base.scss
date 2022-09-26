@@ -21,11 +21,17 @@ body {
 }
 
 .container {
+  width: 100%;
   max-width: 1400px;
   padding-left: 2rem;
   padding-right: 2rem;
   margin-left: auto;
   margin-right: auto;
+
+  @media screen and (max-width: 576px) {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
 
 button {
@@ -43,14 +49,14 @@ button {
   padding: 1rem 2rem;
   overflow: hidden;
   cursor: pointer;
-  transition: .2s ease-in;
-  
-  svg {
-    margin-left: .5rem;
+  transition: 0.2s ease-in;
+
+  svg:not(.loader) {
+    margin-left: 0.5rem;
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 50%;
@@ -60,19 +66,21 @@ button {
     border-radius: 2rem;
     opacity: 0;
     transform: translateX(-50%);
-    transition: .2s ease-in;
+    transition: 0.2s ease-in;
     z-index: -1;
   }
 
   &:hover {
-    transform: scale(1.02);
-    transition: .2s ease-in;
-
-    &::after {
-      width: 110%;
-      opacity: 1;
-      transition: .2s ease-in;
+    @media screen and (min-width: 800px) {
+      transform: scale(1.02);
+      
+      &::after {
+        width: 110%;
+        opacity: 1;
+        transition: 0.2s ease-in;
+      }
     }
+    transition: 0.2s ease-in;
   }
 }
 
@@ -83,6 +91,7 @@ button {
 
 .btn-flat {
   background-color: transparent;
+  color: $black;
   font-weight: bold;
   text-decoration: underline;
   border: none;

@@ -23,7 +23,6 @@ const SearchInput = () => {
 };
 
 const Nav = () => {
-  const [y, setY] = useState(document.scrollingElement.scrollHeight);
   const [menuOpen, setMenuOpen] = useState(false);
   const ref = useRef(null);
 
@@ -34,16 +33,11 @@ const Nav = () => {
         nav.className = "nav";
         return;
       }
-      if (y > window.scrollY) {
-        const nav = ref.current;
-        nav.className = "nav scrolled";
-      } else if (y < window.scrollY) {
-        const nav = ref.current;
-        nav.className = "nav top";
-      }
-      setY(window.scrollY);
+      
+      const nav = ref.current;
+      nav.className = "nav nav-scrolled"
     },
-    [y]
+    []
   );
 
   useEffect(() => {

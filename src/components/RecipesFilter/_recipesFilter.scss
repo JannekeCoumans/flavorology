@@ -5,6 +5,8 @@
 
   .search-input {
     display: flex;
+    align-items: center;
+    width: 100%;
     background-color: white;
     color: $darkgrey;
     border-radius: 2rem;
