@@ -48,7 +48,6 @@ const RecipeOverview = () => {
   const [recipeId, setRecipeId] = useState("");
   const [modal, openModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [addedToList, setAddedToList] = useState(false);
 
   const { ingredients, preperationSteps } = recipe;
 
@@ -79,7 +78,6 @@ const RecipeOverview = () => {
 
     AddToShoppingList(recipeToAdd);
     setLoading(false);
-    setAddedToList(true);
   };
 
   return (
