@@ -257,8 +257,7 @@ const AddRecipeView = () => {
               {allIngredients &&
                 allIngredients.map((ingredient, i) => (
                   <option key={i}>{ingredient}</option>
-                ))
-              }
+                ))}
             </datalist>
             <select
               id="ingredientType"

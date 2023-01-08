@@ -1,12 +1,9 @@
 const UserSettings = {
-  accountCreated: '',
+  accountCreated: "",
   favorites: [{}],
   info: {
-    email: '',
-    name: '',
-    password: '',
-    photo: '',
-    userName: '',
+    userName: "",
+    photo: "",
   },
   recipes: [{}],
 };

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faEye,
-  faEyeSlash,
   faImage,
   faPencil,
   faSpinner,
@@ -22,25 +20,15 @@ const getUserInitials = (name) => {
     .map((n) => n[0]);
 };
 
-const DisplayPassword = ({ showPassword, password }) => {
-  if (showPassword) {
-    return password;
-  }
-  return [...password].map((char, i) => (
-    <React.Fragment key={i}>●</React.Fragment>
-  ));
-};
-
 const AccountView = () => {
-  const [userId] = useState(StorageHandler.get('user'));
+  const [userId] = useState(StorageHandler.get("user"));
   const [userInfo, setUserInfo] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
   const [modal, openModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const logoutUser = async () => {
+  const logoutUser = () => {
     setLoading(true);
-    await StorageHandler.remove("user");
+    StorageHandler.remove("user");
     window.location.href = "/";
     setLoading(false);
   };
@@ -52,24 +40,21 @@ const AccountView = () => {
   if (userInfo) {
     return (
       <div className="accountView">
-        <div className="accountView__header">
-          {userInfo.bannerImage && <img src={userInfo.bannerImage} alt="" />}
-          <div className="accountView__header--edit">
-            <FontAwesomeIcon icon={faImage} />
-            Omslagfoto bewerken
-          </div>
-        </div>
+        <div className="accountView__header" />
         <div className="accountView__overview container">
-          <div className="accountView__overview--badge">
+          <button
+            className="accountView__overview--badge"
+            onClick={() => openModal(true)}
+          >
             {userInfo.photo ? (
               <img src={userInfo.photo} alt="" />
             ) : (
-              <span>{getUserInitials(userInfo.name)}</span>
+              <span>{getUserInitials(userInfo.userName)}</span>
             )}
             <div className="badge__edit">
               <FontAwesomeIcon icon={faImage} />
             </div>
-          </div>
+          </button>
           <div className="accountView__overview--editAccount">
             <button className="btn" onClick={() => openModal(true)}>
               Account aanpassen <FontAwesomeIcon icon={faPencil} />
@@ -77,37 +62,17 @@ const AccountView = () => {
           </div>
           <div className="accountView__overview--userInfo">
             <p>
-              <span>Naam:</span> {userInfo.name || 'Nog niet ingevuld'}
-            </p>
-            <p>
-              <span>Gebruikersnaam:</span> {userInfo.userName || 'Nog niet ingevuld'}
-            </p>
-            <p>
-              <span>E-mailadres:</span> {userInfo.email}
-            </p>
-            <p className="password">
-              <span>Wachtwoord:</span>{" "}
-              {
-                <DisplayPassword
-                  showPassword={showPassword}
-                  password={userInfo.password}
-                />
-              }
-              <button
-                className="togglePasswordVisibility"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <FontAwesomeIcon icon={faEye} />
-                ) : (
-                  <FontAwesomeIcon icon={faEyeSlash} />
-                )}
-              </button>
+              <span>Gebruikersnaam:</span>{" "}
+              {userInfo.userName || "Nog niet ingevuld"}
             </p>
           </div>
           <div className="accountView__overview--logout">
             <button className="btn btn-inverse" onClick={() => logoutUser()}>
-            {loading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Uitloggen"}
+              {loading ? (
+                <FontAwesomeIcon icon={faSpinner} spin />
+              ) : (
+                "Uitloggen"
+              )}
             </button>
           </div>
         </div>

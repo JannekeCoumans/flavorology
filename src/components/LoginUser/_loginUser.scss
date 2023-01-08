@@ -1,0 +1,61 @@
+.loginUser {
+  &__intro {
+    margin: 2rem 0 3rem 0;
+  }
+
+  &__grid {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+
+    button {
+      flex: 0 0 150px;
+      background-color: transparent;
+      color: $black;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+
+      svg,
+      img {
+        border-radius: 0.5rem;
+        outline: 0;
+        margin-bottom: 1rem;
+        transition: 0.1s;
+      }
+    }
+
+    &--userCard {
+      img {
+        opacity: 0.8;
+      }
+      &:hover {
+        img {
+          opacity: 1;
+          transition: 0.1s;
+        }
+      }
+    }
+
+    &--addAccount {
+      svg {
+        width: calc(150px - 4rem);
+        height: calc(150px - 4rem);
+        background-color: $yellow;
+        color: $black;
+        opacity: 0.4;
+        padding: 2rem;
+        transition: 0.2s;
+      }
+
+      &:hover {
+        svg {
+          opacity: 1;
+          transition: 0.2s;
+        }
+      }
+    }
+  }
+}

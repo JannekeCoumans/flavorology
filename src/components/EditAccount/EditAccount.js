@@ -15,7 +15,7 @@ const EditAccount = ({ user, userId, modalIsOpen }) => {
   const [alertPopup, setAlertPopup] = useState(false);
 
   useEffect(() => {
-    if (!alteredAccount) setAlteredAccount({...user});
+    if (!alteredAccount) setAlteredAccount({ ...user });
   }, [alteredAccount, user]);
 
   const changeHandler = (e) => {

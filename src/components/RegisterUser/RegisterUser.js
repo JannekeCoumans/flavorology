@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-import { APIHandler, StorageHandler, UserSettings } from 'config/C4';
+import { APIHandler, StorageHandler, UserSettings } from "config/C4";
 
 const RegisterUser = ({ setDisplayRegister }) => {
-  const [input, setInput] = useState({...UserSettings});
-  const [showPassword, setShowPassword] = useState(false);
+  const [input, setInput] = useState({ ...UserSettings });
   const [overallError, setOverallError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
+  const [userNameError, setUserNameError] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const changeHandler = (e) => {
     setOverallError(false);
-    setEmailError(false);
+    setUserNameError(false);
     const { value, id } = e.target;
     const newUser = input;
     newUser.info[id] = value;
@@ -22,8 +21,10 @@ const RegisterUser = ({ setDisplayRegister }) => {
   };
 
   const checkAllInputs = () => {
-    return Array.from(document.getElementsByTagName('input')).every(val => val.checkValidity() === true);
-  }
+    return Array.from(document.getElementsByTagName("input")).every(
+      (val) => val.checkValidity() === true
+    );
+  };
 
   const registerUser = async () => {
     setLoading(true);
@@ -31,65 +32,55 @@ const RegisterUser = ({ setDisplayRegister }) => {
       setOverallError(true);
       setLoading(false);
     } else {
-      const emailExists = await APIHandler.checkEmail(input.info.email);
-      if (emailExists) {
-        setEmailError(true);
+      const userNameExists = await APIHandler.checkUserName(
+        input.info.userName
+      );
+      if (userNameExists) {
+        setUserNameError(true);
         setLoading(false);
       } else {
         await APIHandler.addUser(input);
-        const userId = await APIHandler.getUserId(input.info.email);
-        StorageHandler.set('user', userId);
-        alert('Je account is succesvol aangemaakt. Je wordt nu ingelogd met je nieuwe account.');
+        const userId = await APIHandler.getUserId(input.info.userName);
+        StorageHandler.set("user", userId);
+        alert(
+          "Je account is succesvol aangemaakt. Je wordt nu ingelogd met je nieuwe account."
+        );
         setLoading(false);
         window.location.reload();
       }
     }
-  }
-
+  };
 
   return (
     <div className="registerUser">
-      <p>Creeër een account om aan de slag te gaan!</p>
-      <hr />
+      <p>Vul een gebruikersnaam in om aan de slag te gaan!</p>
       <div className="row">
         <input
           type="text"
-          id="email"
-          placeholder="E-mailadres"
+          id="userName"
+          placeholder="Gebruikersnaam"
           onChange={changeHandler}
           required
         />
-        {emailError && <p className="inputError">Er is al een account gecreeërd met dit e-mailadres. Log in met dit adres of kies een ander e-mailadres.</p>}
-      </div>
-      <div className="row">
-        <input
-          type={showPassword ? "text" : "password"}
-          id="password"
-          placeholder="Wachtwoord"
-          onChange={changeHandler}
-          required
-        />
-
-        <button
-          className="togglePasswordVisibility"
-          onClick={() => setShowPassword(!showPassword)}
-        >
-          {showPassword ? (
-            <FontAwesomeIcon icon={faEye} />
-          ) : (
-            <FontAwesomeIcon icon={faEyeSlash} />
-          )}
-        </button>
+        {userNameError && (
+          <p className="inputError">
+            Er is al een account gecreeërd met deze gebruikersnaam. Log in met
+            dit account of kies een andere gebruikersnaam.
+          </p>
+        )}
       </div>
 
-      {overallError && <p className="inputError">Oeps, niet alle velden zijn ingevuld.</p>}
+      {overallError && <p>Vul het veld in om verder te gaan.</p>}
 
       <div className="btn-wrapper">
-        <button type="submit" className="btn" onClick={() => registerUser()}>{loading ? <FontAwesomeIcon icon={faSpinner} spin /> : "Account aanmaken"}</button>
-        <button
-          className="btn-flat"
-          onClick={() => setDisplayRegister(false)}
-        >
+        <button type="submit" className="btn" onClick={() => registerUser()}>
+          {loading ? (
+            <FontAwesomeIcon icon={faSpinner} spin />
+          ) : (
+            "Account aanmaken"
+          )}
+        </button>
+        <button className="btn-flat" onClick={() => setDisplayRegister(false)}>
           Ik heb al een account
         </button>
       </div>

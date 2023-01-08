@@ -6,6 +6,7 @@ import {
   faFish,
   faSeedling,
   faUserGroup,
+  faHeart,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
@@ -15,19 +16,19 @@ const convertLabelTypeDish = (label) => {
     case "meat":
       return (
         <span>
-          <FontAwesomeIcon icon={faDrumstickBite} /> vleesgerecht
+          <FontAwesomeIcon icon={faDrumstickBite} /> Vleesgerecht
         </span>
       );
     case "fish":
       return (
         <span>
-          <FontAwesomeIcon icon={faFish} /> visgerecht
+          <FontAwesomeIcon icon={faFish} /> Visgerecht
         </span>
       );
     case "vegetarian":
       return (
         <span>
-          <FontAwesomeIcon icon={faCarrot} /> vegetarisch gerecht
+          <FontAwesomeIcon icon={faCarrot} /> Vegetarisch gerecht
         </span>
       );
     case "vegan":
@@ -47,6 +48,16 @@ const convertKitchen = (kitchen) => {
       return "italiaans";
     case "french":
       return "frans";
+    case "thai":
+      return "Thais";
+    case "chinese":
+      return "Chinees";
+    case "mexican":
+      return "Mexicaans";
+    case "indian":
+      return "Indiaas";
+    case "marrocan":
+      return "Marokkaans";
     default:
       return "";
   }
@@ -96,7 +107,9 @@ const RecipeOverviewHeader = ({ item }) => {
             </div>
           )}
           {healthy === "true" && (
-            <div className="label healthy">gezond gerecht</div>
+            <div className="label healthy">
+              <FontAwesomeIcon icon={faHeart} /> Gezond gerecht
+            </div>
           )}
         </div>
       </div>

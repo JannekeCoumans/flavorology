@@ -109,14 +109,19 @@ const RecipesFilter = ({
                 if (type && type !== "") {
                   const filteredDish = RecipeSettings.dishTypes.filter(
                     (dish) => {
-                      return dish.shortName === type;
+                      if (dish.shortName) {
+                        return dish.shortName === type;
+                      }
+                      return null;
                     }
                   )[0];
-                  return (
-                    <option key={i} value={filteredDish.shortName}>
-                      {filteredDish.longName}
-                    </option>
-                  );
+                  if (filteredDish.shortName) {
+                    return (
+                      <option key={i} value={filteredDish.shortName}>
+                        {filteredDish.longName}
+                      </option>
+                    );
+                  }
                 }
                 return null;
               })}
@@ -133,14 +138,20 @@ const RecipesFilter = ({
               allKitchenTypes.map((type, i) => {
                 const filteredKitchen = RecipeSettings.kitchenTypes.filter(
                   (kitchen) => {
-                    return kitchen.shortName === type;
+                    if (kitchen.shortName) {
+                      return kitchen.shortName === type;
+                    }
+                    return null;
                   }
                 )[0];
-                return (
-                  <option key={i} value={filteredKitchen.shortName}>
-                    {filteredKitchen.longName}
-                  </option>
-                );
+                if (filteredKitchen.shortName) {
+                  return (
+                    <option key={i} value={filteredKitchen.shortName}>
+                      {filteredKitchen.longName}
+                    </option>
+                  );
+                }
+                return null;
               })}
           </select>
         </div>
@@ -162,8 +173,8 @@ const RecipesFilter = ({
       </label>
       <label>
         <span>
-          <input type="checkbox" id="healthy" onChange={handleChange} />
-          {" "}Gezond gerecht?
+          <input type="checkbox" id="healthy" onChange={handleChange} /> Gezond
+          gerecht?
         </span>
       </label>
       <button className="btn" onClick={() => resetFilters()}>

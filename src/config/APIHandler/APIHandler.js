@@ -45,14 +45,29 @@ export default APIHandler = {
 
   checkEmail: async (email) => {
     const request = `${firebaseUrl}/users.json`;
-    return Object.entries(await APIHandler.makeRequest(request)).filter(item => item[1].info.email === email).length > 0;
+    return (
+      Object.entries(await APIHandler.makeRequest(request)).filter(
+        (item) => item[1].info.email === email
+      ).length > 0
+    );
   },
 
-  getUserId: async (email) => {
+  checkUserName: async (userName) => {
     const request = `${firebaseUrl}/users.json`;
-    const user = Object.entries(await APIHandler.makeRequest(request)).filter(item => item[1].info.email === email);
+    return (
+      Object.entries(await APIHandler.makeRequest(request)).filter(
+        (item) => item[1].info.userName.toLowerCase() === userName.toLowerCase()
+      ).length > 0
+    );
+  },
+
+  getUserId: async (userName) => {
+    const request = `${firebaseUrl}/users.json`;
+    const user = Object.entries(await APIHandler.makeRequest(request)).filter(
+      (item) => item[1].info.userName === userName
+    );
     if (user.length > 0) {
-      return user[0][0]
+      return user[0][0];
     }
     return null;
   },
@@ -67,7 +82,7 @@ export default APIHandler = {
 
   getAllRecipes: (id) => {
     const request = `${firebaseUrl}/users/${id}/recipes.json`;
-    return APIHandler.makeRequest(request);    
+    return APIHandler.makeRequest(request);
   },
 
   addRecipe: (userId, recipe) => {
@@ -97,7 +112,7 @@ export default APIHandler = {
 
   getAllFavorites: (userId) => {
     const request = `${firebaseUrl}/users/${userId}/favorites.json`;
-    return APIHandler.makeRequest(request); 
+    return APIHandler.makeRequest(request);
   },
 
   checkFavorite: async (userId, id) => {
@@ -120,25 +135,31 @@ export default APIHandler = {
 
   removeFavorite: async (userId, id) => {
     const getAllFavorites = `${firebaseUrl}/users/${userId}/favorites.json`;
-    const result =  await APIHandler.makeRequest(getAllFavorites);
-    const indexToRemove = Object.values(result).findIndex(item => item === id);
+    const result = await APIHandler.makeRequest(getAllFavorites);
+    const indexToRemove = Object.values(result).findIndex(
+      (item) => item === id
+    );
     const itemKey = Object.keys(result)[indexToRemove];
     const request = `${firebaseUrl}/users/${userId}/favorites/${itemKey}.json`;
     const settings = {
-      method: "DELETE"
+      method: "DELETE",
     };
     return APIHandler.makeRequest(request, settings);
   },
 
   getAllIngredients: async (userId) => {
     const request = `${firebaseUrl}/users/${userId}/recipes.json`;
-    const allIngredientArrays = Object.values(await APIHandler.makeRequest(request)).map(recipe => recipe.ingredients);
+    const allIngredientArrays = Object.values(
+      await APIHandler.makeRequest(request)
+    ).map((recipe) => recipe.ingredients);
     const ingredients = [];
-    allIngredientArrays.map(item => item.forEach(ingredient => {
-      if (!ingredients.includes(ingredient.ingredientName.toLowerCase())) {
-        ingredients.push(ingredient.ingredientName.toLowerCase());
-      }
-    }));
+    allIngredientArrays.map((item) =>
+      item.forEach((ingredient) => {
+        if (!ingredients.includes(ingredient.ingredientName.toLowerCase())) {
+          ingredients.push(ingredient.ingredientName.toLowerCase());
+        }
+      })
+    );
     return ingredients;
   },
 

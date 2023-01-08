@@ -29,8 +29,10 @@
       .label {
         display: flex;
         align-items: center;
-        background-color: $darkgrey;
-        color: white;
+        background-color: $yellow;
+        color: $black;
+        font-size: 0.9rem;
+        font-weight: 600;
         border-radius: 0.25rem;
         padding: 0.75rem 1.5rem;
 
