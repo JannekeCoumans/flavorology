@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faCheck, faPen, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowRight,
+  faCheck,
+  faPen,
+} from "@fortawesome/free-solid-svg-icons";
 
 import {
   AddToShoppingList,
@@ -43,11 +47,11 @@ const getRecipe = async (userId, id, callback) => {
 };
 
 const RecipeOverview = () => {
-  const [userId] = useState(StorageHandler.get('user'));
+  const [userId] = useState(StorageHandler.get("user"));
   const [recipe, setRecipe] = useState({});
   const [recipeId, setRecipeId] = useState("");
   const [modal, openModal] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [addedToList, setAddedToList] = useState(false);
 
   const { ingredients, preperationSteps } = recipe;
 
@@ -58,8 +62,7 @@ const RecipeOverview = () => {
     setRecipeId(recipeId);
   }, [userId, setRecipe]);
 
-  const checkListItems = () => {
-    setLoading(true);
+  const checkListItems = async () => {
     const checkboxes = [...document.getElementsByName("ingredient")]
       .filter((c) => c.checked)
       .map((c) => c.id);
@@ -67,7 +70,7 @@ const RecipeOverview = () => {
     const recipeToAdd = {
       recipeId,
       items: [],
-    }
+    };
 
     recipeToAdd.items = checkboxes.map((check) => {
       const array = ingredients.filter((ingredient) => {
@@ -77,7 +80,7 @@ const RecipeOverview = () => {
     });
 
     AddToShoppingList(recipeToAdd);
-    setLoading(false);
+    setAddedToList(true);
   };
 
   return (
@@ -111,17 +114,21 @@ const RecipeOverview = () => {
           <button
             className="btn"
             onClick={() => checkListItems()}
-            disabled={loading || CheckShoppingList(recipeId)}
+            disabled={addedToList || CheckShoppingList(recipeId)}
           >
-            {!loading && !CheckShoppingList(recipeId) && "Voeg toe aan lijstje"}
-            {loading && <FontAwesomeIcon className="loader" icon={faSpinner} spin />}
-            {CheckShoppingList(recipeId) && (
+            {addedToList || CheckShoppingList(recipeId) ? (
               <span>
                 <FontAwesomeIcon icon={faCheck} /> Toegevoegd!
               </span>
+            ) : (
+              "Voeg toe aan lijstje"
             )}
           </button>
-          {CheckShoppingList(recipeId) && <Link className="btn-flat check-list" to="/boodschappenlijstjes">Bekijk je lijstje <FontAwesomeIcon icon={faArrowRight} /></Link>}
+          {CheckShoppingList(recipeId) && (
+            <Link className="btn-flat check-list" to="/boodschappenlijstjes">
+              Bekijk je lijstje <FontAwesomeIcon icon={faArrowRight} />
+            </Link>
+          )}
         </div>
         <div className="recipeOverview__content--preperation-steps">
           <h1>Let's get cooking</h1>
