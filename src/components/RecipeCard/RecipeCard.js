@@ -9,6 +9,7 @@ import { faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
 const RecipeCard = ({ item, itemKey, clsn }) => {
   const placeholderImage =
     "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Begrippenlijst.svg";
+
   return (
     <div className={`${clsn} recipeCard`}>
       <Link to={`/recept/${itemKey}`} className={`${clsn}--background`}>

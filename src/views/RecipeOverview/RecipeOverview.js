@@ -36,13 +36,15 @@ const convertQuantityType = (quantityType) => {
 
 const getRecipe = async (userId, id, callback) => {
   const recipe = await APIHandler.getRecipe(userId, id);
-  recipe.ingredients.sort((a, b) =>
-    a.ingredientType > b.ingredientType
-      ? 1
-      : b.ingredientType > a.ingredientType
-      ? -1
-      : 0
-  );
+  if (recipe && recipe.ingrediens) {
+    recipe.ingredients.sort((a, b) =>
+      a.ingredientType > b.ingredientType
+        ? 1
+        : b.ingredientType > a.ingredientType
+        ? -1
+        : 0
+    );
+  }
   callback(recipe);
 };
 
@@ -83,51 +85,70 @@ const RecipeOverview = () => {
     setAddedToList(true);
   };
 
+  console.log(ingredients && ingredients.length <= 0);
+
   return (
     <div className="recipeOverview">
       <RecipeOverviewHeader item={recipe} />
       <section className="recipeOverview__content">
         <div className="recipeOverview__content--ingredients">
           <h1 className="sectionTitle">Ingrediënten</h1>
-          <ul>
-            {recipe &&
-              ingredients &&
-              ingredients.map((item, i) => (
-                <li key={i}>
-                  <label>
-                    <input
-                      type="checkbox"
-                      name="ingredient"
-                      id={item.ingredientName}
-                      defaultChecked
-                    />
+          {ingredients && ingredients.length >= 1 ? (
+            <>
+              <ul>
+                {recipe &&
+                  ingredients &&
+                  ingredients.map((item, i) => (
+                    <li key={i}>
+                      <label>
+                        <input
+                          type="checkbox"
+                          name="ingredient"
+                          id={item.ingredientName}
+                          defaultChecked
+                        />
 
-                    <span>
-                      {item.quantity} {convertQuantityType(item.quantityType)}{" "}
-                      {item.ingredientName}
-                    </span>
-                  </label>
-                </li>
-              ))}
-          </ul>
+                        <span>
+                          {item.quantity}{" "}
+                          {convertQuantityType(item.quantityType)}{" "}
+                          {item.ingredientName}
+                        </span>
+                      </label>
+                    </li>
+                  ))}
+              </ul>
 
-          <button
-            className="btn"
-            onClick={() => checkListItems()}
-            disabled={addedToList || CheckShoppingList(recipeId)}
-          >
-            {addedToList || CheckShoppingList(recipeId) ? (
-              <span>
-                <FontAwesomeIcon icon={faCheck} /> Toegevoegd!
-              </span>
-            ) : (
-              "Voeg toe aan lijstje"
-            )}
-          </button>
-          {CheckShoppingList(recipeId) && (
-            <Link className="btn-flat check-list" to="/boodschappenlijstjes">
-              Bekijk je lijstje <FontAwesomeIcon icon={faArrowRight} />
-            </Link>
+              <button
+                className="btn"
+                onClick={() => checkListItems()}
+                disabled={addedToList || CheckShoppingList(recipeId)}
+              >
+                {addedToList || CheckShoppingList(recipeId) ? (
+                  <span>
+                    <FontAwesomeIcon icon={faCheck} /> Toegevoegd!
+                  </span>
+                ) : (
+                  "Voeg toe aan lijstje"
+                )}
+              </button>
+              {CheckShoppingList(recipeId) && (
+                <Link
+                  className="btn-flat check-list"
+                  to="/boodschappenlijstjes"
+                >
+                  Bekijk je lijstje <FontAwesomeIcon icon={faArrowRight} />
+                </Link>
+              )}
+            </>
+          ) : (
+            <>
+              <p>Je hebt nog geen ingrediënten toegevoegd voor dit recept.</p>
+              <div className="btn-wrapper">
+                <button className="btn" onClick={() => openModal(!modal)}>
+                  Recept aanpassen <FontAwesomeIcon icon={faArrowRight} />
+                </button>
+              </div>
+            </>
           )}
         </div>
         <div className="recipeOverview__content--preperation-steps">

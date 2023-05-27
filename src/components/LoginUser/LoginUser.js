@@ -19,13 +19,13 @@ const LoginUser = ({ setDisplayRegister }) => {
       getAllUsers(setAllUsers);
     }
   }, [setAllUsers, allUsers]);
+
   const loginUser = (userId) => {
     StorageHandler.set("user", userId);
     window.location.reload();
   };
 
   if (allUsers) {
-    console.log(Object.entries(allUsers));
     return (
       <div className="loginUser">
         <p className="loginUser__intro">
@@ -35,9 +35,9 @@ const LoginUser = ({ setDisplayRegister }) => {
         <div className="loginUser__grid">
           {Object.entries(allUsers).map((item, i) => {
             const { info } = item[1];
-            console.log(info);
             return (
               <button
+                key={i}
                 className="loginUser__grid--userCard"
                 onClick={() => loginUser(item[0])}
               >

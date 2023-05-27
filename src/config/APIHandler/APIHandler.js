@@ -151,15 +151,23 @@ export default APIHandler = {
     const request = `${firebaseUrl}/users/${userId}/recipes.json`;
     const allIngredientArrays = Object.values(
       await APIHandler.makeRequest(request)
-    ).map((recipe) => recipe.ingredients);
+    ).map((recipe) => {
+      if (recipe.ingredients) {
+        return recipe.ingredients;
+      }
+      return false;
+    });
     const ingredients = [];
-    allIngredientArrays.map((item) =>
-      item.forEach((ingredient) => {
-        if (!ingredients.includes(ingredient.ingredientName.toLowerCase())) {
-          ingredients.push(ingredient.ingredientName.toLowerCase());
-        }
-      })
-    );
+    console.log(allIngredientArrays);
+    if (allIngredientArrays === true) {
+      allIngredientArrays.map((item) =>
+        item.forEach((ingredient) => {
+          if (!ingredients.includes(ingredient.ingredientName.toLowerCase())) {
+            ingredients.push(ingredient.ingredientName.toLowerCase());
+          }
+        })
+      );
+    }
     return ingredients;
   },
 

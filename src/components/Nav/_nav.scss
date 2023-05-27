@@ -37,7 +37,7 @@
     opacity: 0;
     transform: translateX(100vw);
     overflow-y: auto;
-    transition: transform .4s, opacity .1s .4s;
+    transition: transform 0.4s, opacity 0.1s 0.4s;
 
     &.closed {
       transform: translateX(100vw);
@@ -49,7 +49,7 @@
       right: unset;
       opacity: 1;
       transform: translateX(0);
-      transition: transform .4s;
+      transition: transform 0.4s;
     }
 
     .close-menu {
@@ -198,6 +198,25 @@
 
       &.user {
         background-color: $grey;
+      }
+
+      &.list {
+        .icon-box {
+          position: relative;
+        }
+
+        .badge {
+          svg {
+            position: absolute;
+            top: -2px;
+            right: -10px;
+            width: 15px;
+            height: 15px;
+            color: black;
+            background-color: white;
+            border-radius: 50%;
+          }
+        }
       }
     }
 

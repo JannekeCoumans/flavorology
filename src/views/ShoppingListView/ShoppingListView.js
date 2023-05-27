@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 const getShoppingListItems = async (
   userId,
   setRecipesInList,
-  setShoppingListItems,
+  setShoppingListItems
 ) => {
   const list = await StorageHandler.get("shoppinglist");
   const { shoppingListOrder } = RecipeSettings;
@@ -30,7 +30,9 @@ const getShoppingListItems = async (
       if (
         !sortedList.filter(
           (i) =>
-            i.ingredientName.toLowerCase() === item.ingredientName.toLowerCase()
+            i.ingredientName.toLowerCase() ===
+              item.ingredientName.toLowerCase() &&
+            i.quantityType === item.quantityType
         ).length > 0
       ) {
         sortedList.push(item);
@@ -83,11 +85,7 @@ const ShoppingListView = () => {
 
   useEffect(() => {
     if (!shoppingListItems) {
-      getShoppingListItems(
-        userId,
-        setRecipesInList,
-        setShoppingListItems
-      );
+      getShoppingListItems(userId, setRecipesInList, setShoppingListItems);
     }
   }, [userId, shoppingListItems]);
 
@@ -99,6 +97,7 @@ const ShoppingListView = () => {
 
   const deleteList = () => {
     StorageHandler.remove("shoppinglist");
+    StorageHandler.remove("lastModifiedShoppingList");
     setShoppingListItems(null);
     setRecipesInList(null);
   };

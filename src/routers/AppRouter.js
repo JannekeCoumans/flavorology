@@ -43,7 +43,7 @@ const AppRouter = () => {
               <Route path="/recept-toevoegen" exact component={AddRecipeView} />
               <Route path="/recept/:id" exact component={RecipeOverview} />
               <Route
-                path="/boodschappenlijstjes"
+                path="/boodschappenlijstje"
                 exact
                 component={ShoppingListView}
               />
@@ -55,7 +55,9 @@ const AppRouter = () => {
           ) : (
             <>
               <Route path="/" exact component={LoginView} />
-              {window.location.pathname !== '/' && (<Route path="*" component={LoginRequiredView} />)}
+              {window.location.pathname !== "/" && (
+                <Route path="*" component={LoginRequiredView} />
+              )}
             </>
           )}
         </Switch>

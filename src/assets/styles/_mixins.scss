@@ -1,0 +1,23 @@
+@mixin isDesktop {
+  @media (min-width: 1194px) {
+    @content;
+  }
+}
+
+@mixin isLandscape {
+  @media (max-width: 1194px) {
+    @content;
+  }
+}
+
+@mixin isPortrait {
+  @media (max-width: 834px) {
+    @content;
+  }
+}
+
+@mixin isMobile {
+  @media (max-width: 650px) {
+    @content;
+  }
+}

@@ -7,7 +7,7 @@ import { APIHandler, InspirationRecipes, StorageHandler } from "config/C4";
 const getAllRecipes = async (userId, callback) => {
   const allRecipes = await APIHandler.getAllRecipes(userId);
   callback(allRecipes);
-}
+};
 
 const HomeView = () => {
   const [userId] = useState(StorageHandler.get("user"));
@@ -28,9 +28,14 @@ const HomeView = () => {
               Altijd je <span>éigen</span> favoriete
               <br /> recepten bij de hand.
             </h1>
-            <Link to="/recept-toevoegen" className="btn">
-              Recept toevoegen <FontAwesomeIcon icon={faPlus} />
-            </Link>
+            <div className="btn-wrapper">
+              <Link to="/recepten" className="btn">
+                Bekijk recepten <FontAwesomeIcon icon={faArrowRight} />
+              </Link>
+              <Link to="/recept-toevoegen" className="btn-flat white">
+                Recept toevoegen <FontAwesomeIcon icon={faPlus} />
+              </Link>
+            </div>
           </div>
         </div>
       </header>

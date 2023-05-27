@@ -57,5 +57,18 @@
         }
       }
     }
+
+    @include isPortrait {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      &--userCard,
+      &--addAccount {
+        img,
+        svg {
+          opacity: 1;
+        }
+      }
+    }
   }
 }

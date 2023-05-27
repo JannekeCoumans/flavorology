@@ -85,6 +85,9 @@ const RecipeOverviewHeader = ({ item }) => {
     image,
   } = item;
 
+  const placeholderImage =
+    "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Begrippenlijst.svg";
+
   return (
     <header className="recipeOverviewHeader">
       <div className="recipeOverviewHeader__text">
@@ -114,7 +117,7 @@ const RecipeOverviewHeader = ({ item }) => {
         </div>
       </div>
       <div className="recipeOverviewHeader__image">
-        <img src={image} alt={recipeName} />
+        <img src={image || placeholderImage} alt={recipeName} />
       </div>
     </header>
   );

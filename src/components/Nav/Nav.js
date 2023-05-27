@@ -12,6 +12,8 @@ import {
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 
 import logo from "assets/images/logo.svg";
+import ShoppinglistIsFilled from "config/ShoppinglistIsFilled";
+import ShoppingListIcon from "./ShoppingListIcon";
 
 const SearchInput = () => {
   return (
@@ -26,22 +28,20 @@ const Nav = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const ref = useRef(null);
 
-  const handleNavigation = useCallback(
-    (e) => {
-      if (window.scrollY <= 0) {
-        const nav = ref.current;
-        nav.className = "nav";
-        return;
-      }
-      
+  const handleNavigation = useCallback((e) => {
+    if (window.scrollY <= 0) {
       const nav = ref.current;
-      nav.className = "nav nav-scrolled"
-    },
-    []
-  );
+      nav.className = "nav";
+      return;
+    }
+
+    const nav = ref.current;
+    nav.className = "nav nav-scrolled";
+  }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", handleNavigation);
+    ShoppinglistIsFilled();
     return () => {
       window.removeEventListener("scroll", handleNavigation);
     };
@@ -83,15 +83,23 @@ const Nav = () => {
               <img src={logo} alt="Flavorology" />
             </Link>
             <div className="sidemenu__items">
-              <Link onClick={() => closeMenu()} to="/">Home</Link>
-              <Link onClick={() => closeMenu()} to="/recepten">Recepten</Link>
-              <Link onClick={() => closeMenu()} to="/onlangs-toegevoegd">Onlangs toegevoegd</Link>
-              <Link onClick={() => closeMenu()} to="/uitproberen">Uitproberen</Link>
+              <Link onClick={() => closeMenu()} to="/">
+                Home
+              </Link>
+              <Link onClick={() => closeMenu()} to="/recepten">
+                Recepten
+              </Link>
+              <Link onClick={() => closeMenu()} to="/onlangs-toegevoegd">
+                Onlangs toegevoegd
+              </Link>
+              <Link onClick={() => closeMenu()} to="/uitproberen">
+                Uitproberen
+              </Link>
 
               <hr />
 
               <Link onClick={() => closeMenu()} to="/recept-toevoegen">
-              <FontAwesomeIcon icon={faPlus} /> Recept toevoegen
+                <FontAwesomeIcon icon={faPlus} /> Recept toevoegen
               </Link>
               <Link onClick={() => closeMenu()} to="/boodschappenlijstjes">
                 <FontAwesomeIcon icon={faList} /> Boodschappenlijstje
@@ -109,9 +117,7 @@ const Nav = () => {
           <Link to="/recept-toevoegen" className="icon add">
             <FontAwesomeIcon icon={faPlus} />
           </Link>
-          <Link to="/boodschappenlijstjes" className="icon list">
-            <FontAwesomeIcon icon={faList} />
-          </Link>
+          <ShoppingListIcon />
           <Link to="/favorieten" className="icon favorites">
             <FontAwesomeIcon icon={faHeart} />
           </Link>
