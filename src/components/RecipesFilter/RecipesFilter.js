@@ -116,6 +116,7 @@ const RecipesFilter = ({
                     }
                   )[0];
                   if (filteredDish.shortName) {
+                    console.log(filteredDish.shortName);
                     return (
                       <option key={i} value={filteredDish.shortName}>
                         {filteredDish.longName}
@@ -144,7 +145,7 @@ const RecipesFilter = ({
                     return null;
                   }
                 )[0];
-                if (filteredKitchen.shortName) {
+                if (filteredKitchen && filteredKitchen.shortName) {
                   return (
                     <option key={i} value={filteredKitchen.shortName}>
                       {filteredKitchen.longName}
