@@ -45,9 +45,9 @@ const convertLabelTypeDish = (label) => {
 const convertKitchen = (kitchen) => {
   switch (kitchen) {
     case "italian":
-      return "italiaans";
+      return "Italiaans";
     case "french":
-      return "frans";
+      return "Frans";
     case "thai":
       return "Thais";
     case "chinese":

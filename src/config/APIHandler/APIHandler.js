@@ -13,6 +13,7 @@ export default APIHandler = {
         console.log(err);
       }),
 
+  // USERS
   addUser: (user) => {
     const request = `${firebaseUrl}/users.json`;
     const settings = {
@@ -80,6 +81,7 @@ export default APIHandler = {
     }
   },
 
+  // RECIPES
   getAllRecipes: (id) => {
     const request = `${firebaseUrl}/users/${id}/recipes.json`;
     return APIHandler.makeRequest(request);
@@ -110,6 +112,15 @@ export default APIHandler = {
     return APIHandler.makeRequest(request, settings);
   },
 
+  deleteRecipe: async (userId, recipeId) => {
+    const request = `${firebaseUrl}/users/${userId}/recipes/${recipeId}.json`;
+    const settings = {
+      method: "DELETE",
+    };
+    return APIHandler.makeRequest(request, settings);
+  },
+
+  // FAVORITES
   getAllFavorites: (userId) => {
     const request = `${firebaseUrl}/users/${userId}/favorites.json`;
     return APIHandler.makeRequest(request);
@@ -147,6 +158,7 @@ export default APIHandler = {
     return APIHandler.makeRequest(request, settings);
   },
 
+  // INGREDIENTS
   getAllIngredients: async (userId) => {
     const request = `${firebaseUrl}/users/${userId}/recipes.json`;
     const allIngredientArrays = Object.values(
@@ -158,7 +170,6 @@ export default APIHandler = {
       return false;
     });
     const ingredients = [];
-    console.log(allIngredientArrays);
     if (allIngredientArrays === true) {
       allIngredientArrays.map((item) =>
         item.forEach((ingredient) => {
@@ -171,5 +182,45 @@ export default APIHandler = {
     return ingredients;
   },
 
-  // deleteRecipe,,
+  // SHOPPINGLIST
+  getShoppingList: (userId) => {
+    const request = `${firebaseUrl}/users/${userId}/shoppinglist.json`;
+    return APIHandler.makeRequest(request);
+  },
+
+  addToShoppingList: async (userId, shoppingList) => {
+    const request = `${firebaseUrl}/users/${userId}/shoppinglist.json`;
+    const settings = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(shoppingList),
+    };
+    return APIHandler.makeRequest(request, settings);
+  },
+
+  deleteShoppingList: async (userId) => {
+    const request = `${firebaseUrl}/users/${userId}/shoppinglist.json`;
+    const settings = {
+      method: "DELETE",
+    };
+    return APIHandler.makeRequest(request, settings);
+  },
+
+  removeRecipeFromShoppingList: async (userId, recipeId) => {
+    const getAllRecipesOnShoppingList = `${firebaseUrl}/users/${userId}/shoppinglist.json`;
+    const result = await APIHandler.makeRequest(getAllRecipesOnShoppingList);
+    const indexToRemove = result.list.findIndex(
+      (item) => item.recipeId === recipeId
+    );
+
+    result.list.splice(indexToRemove, 1);
+
+    const request = `${firebaseUrl}/users/${userId}/shoppinglist.json`;
+    const settings = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(result),
+    };
+    return APIHandler.makeRequest(request, settings);
+  },
 };

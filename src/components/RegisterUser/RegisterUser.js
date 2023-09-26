@@ -4,7 +4,7 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 import { APIHandler, StorageHandler, UserSettings } from "config/C4";
 
-const RegisterUser = ({ setDisplayRegister }) => {
+const RegisterUser = ({ setDisplayRegister, loggedInIsTrue }) => {
   const [input, setInput] = useState({ ...UserSettings });
   const [overallError, setOverallError] = useState(false);
   const [userNameError, setUserNameError] = useState(false);
@@ -46,7 +46,7 @@ const RegisterUser = ({ setDisplayRegister }) => {
           "Je account is succesvol aangemaakt. Je wordt nu ingelogd met je nieuwe account."
         );
         setLoading(false);
-        window.location.reload();
+        loggedInIsTrue(true);
       }
     }
   };

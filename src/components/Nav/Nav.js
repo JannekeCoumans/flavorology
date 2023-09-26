@@ -101,7 +101,7 @@ const Nav = () => {
               <Link onClick={() => closeMenu()} to="/recept-toevoegen">
                 <FontAwesomeIcon icon={faPlus} /> Recept toevoegen
               </Link>
-              <Link onClick={() => closeMenu()} to="/boodschappenlijstjes">
+              <Link onClick={() => closeMenu()} to="/boodschappenlijstje">
                 <FontAwesomeIcon icon={faList} /> Boodschappenlijstje
               </Link>
               <Link onClick={() => closeMenu()} to="/favorieten">

@@ -11,7 +11,7 @@ const getAllUsers = async (callback) => {
   callback(users);
 };
 
-const LoginUser = ({ setDisplayRegister }) => {
+const LoginUser = ({ setDisplayRegister, loggedInIsTrue }) => {
   const [allUsers, setAllUsers] = useState(null);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const LoginUser = ({ setDisplayRegister }) => {
 
   const loginUser = (userId) => {
     StorageHandler.set("user", userId);
-    window.location.reload();
+    loggedInIsTrue(true);
   };
 
   if (allUsers) {

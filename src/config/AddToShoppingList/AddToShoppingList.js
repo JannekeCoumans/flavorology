@@ -1,16 +1,31 @@
-import { StorageHandler } from "config/C4";
+import { APIHandler, StorageHandler } from "config/C4";
 
-const AddToShoppingList = (recipe) => {
-  const currentShoppingList = StorageHandler.get("shoppinglist") || [];
-  currentShoppingList.push(recipe);
+const AddToShoppingList = async (recipe) => {
+  const emptyShoppingList = {
+    list: [],
+    lastModified: "",
+  };
+  const userId = StorageHandler.get("user");
   const date = new Date();
-  // let currentDay = String(date.getDate()).padStart(2, "0");
-  // let currentMonth = String(date.getMonth() + 1).padStart(2, "0");
-  // let currentYear = date.getFullYear();
-  // let currentDate = `${currentDay}-${currentMonth}-${currentYear}`;
 
-  StorageHandler.set("lastModifiedShoppingList", date);
-  StorageHandler.set("shoppinglist", currentShoppingList);
+  let shoppingList = await APIHandler.getShoppingList(userId);
+
+  if (!shoppingList || (!shoppingList.list && shoppingList.lastModified)) {
+    shoppingList = emptyShoppingList;
+  }
+
+  const list = Object.values(shoppingList)[0].list || shoppingList.list;
+
+  const edittedShoppingList = {
+    list: [],
+    lastModified: "",
+  };
+
+  edittedShoppingList.list = [...list];
+  edittedShoppingList.lastModified = date;
+  edittedShoppingList.list.push(recipe);
+
+  await APIHandler.addToShoppingList(userId, edittedShoppingList);
 };
 
 export default AddToShoppingList;

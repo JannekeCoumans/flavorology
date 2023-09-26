@@ -116,7 +116,6 @@ const RecipesFilter = ({
                     }
                   )[0];
                   if (filteredDish.shortName) {
-                    console.log(filteredDish.shortName);
                     return (
                       <option key={i} value={filteredDish.shortName}>
                         {filteredDish.longName}

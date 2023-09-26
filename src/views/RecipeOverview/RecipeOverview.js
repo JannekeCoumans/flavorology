@@ -36,7 +36,7 @@ const convertQuantityType = (quantityType) => {
 
 const getRecipe = async (userId, id, callback) => {
   const recipe = await APIHandler.getRecipe(userId, id);
-  if (recipe && recipe.ingrediens) {
+  if (recipe && recipe.ingredients) {
     recipe.ingredients.sort((a, b) =>
       a.ingredientType > b.ingredientType
         ? 1
@@ -85,8 +85,6 @@ const RecipeOverview = () => {
     setAddedToList(true);
   };
 
-  console.log(ingredients && ingredients.length <= 0);
-
   return (
     <div className="recipeOverview">
       <RecipeOverviewHeader item={recipe} />
@@ -121,7 +119,7 @@ const RecipeOverview = () => {
               <button
                 className="btn"
                 onClick={() => checkListItems()}
-                disabled={addedToList || CheckShoppingList(recipeId)}
+                // disabled={addedToList || CheckShoppingList(recipeId)}
               >
                 {addedToList || CheckShoppingList(recipeId) ? (
                   <span>
@@ -132,10 +130,7 @@ const RecipeOverview = () => {
                 )}
               </button>
               {CheckShoppingList(recipeId) && (
-                <Link
-                  className="btn-flat check-list"
-                  to="/boodschappenlijstjes"
-                >
+                <Link className="btn-flat check-list" to="/boodschappenlijstje">
                   Bekijk je lijstje <FontAwesomeIcon icon={faArrowRight} />
                 </Link>
               )}

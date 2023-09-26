@@ -25,6 +25,7 @@ const AddRecipeView = () => {
     kitchen: "",
     healthy: false,
     image: "",
+    thumbnail: "",
     ingredients: [
       {
         ingredientType: "",
@@ -34,6 +35,9 @@ const AddRecipeView = () => {
       },
     ],
     preperationSteps: [""],
+    dateCreated: "",
+    dateLastModified: "",
+    public: false,
   });
   const [allIngredients, setAllIngredients] = useState(null);
   const [ingredientCount, setIngredientCount] = useState(1);
@@ -102,6 +106,8 @@ const AddRecipeView = () => {
 
   const handleSubmit = () => {
     setLoading(true);
+    const input = recipe;
+    input.dateCreated = new Date();
     APIHandler.addRecipe(userId, recipe).then((res) => {
       if (res && res.name) {
         setRecipeSaved(true);

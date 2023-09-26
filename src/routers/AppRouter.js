@@ -30,6 +30,10 @@ const AppRouter = () => {
     if (loggedIn === null) checkLoggedIn(setLoggedIn);
   }, [loggedIn]);
 
+  const loggedInIsTrue = (bool) => {
+    setLoggedIn(bool);
+  };
+
   return (
     <Router>
       <ScrollToTop />
@@ -54,7 +58,11 @@ const AppRouter = () => {
             </>
           ) : (
             <>
-              <Route path="/" exact component={LoginView} />
+              <Route
+                path="/"
+                exact
+                render={() => <LoginView loggedInIsTrue={loggedInIsTrue} />}
+              />
               {window.location.pathname !== "/" && (
                 <Route path="*" component={LoginRequiredView} />
               )}
