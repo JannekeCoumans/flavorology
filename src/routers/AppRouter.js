@@ -15,6 +15,7 @@ import {
   StorageHandler,
   LoginView,
   LoginRequiredView,
+  ScrollToTopButton,
 } from "../config/C4";
 
 const checkLoggedIn = (callback) => {
@@ -38,14 +39,19 @@ const AppRouter = () => {
     <Router>
       <ScrollToTop />
       {loggedIn && <Nav />}
-      <div className={loggedIn ? "viewContainer" : ""}>
+      <div id="top" className={loggedIn ? "viewContainer" : ""}>
+        {loggedIn && <ScrollToTopButton scrollToElement="top" />}
         <Switch>
           {loggedIn ? (
             <>
               <Route path="/" exact component={HomeView} />
               <Route path="/recepten" exact component={RecipesView} />
               <Route path="/recept-toevoegen" exact component={AddRecipeView} />
-              <Route path="/recept/:id" exact component={RecipeOverview} />
+              <Route
+                path="/recept/:id/:id/:id"
+                exact
+                component={RecipeOverview}
+              />
               <Route
                 path="/boodschappenlijstje"
                 exact

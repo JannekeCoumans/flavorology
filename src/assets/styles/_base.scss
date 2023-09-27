@@ -126,3 +126,17 @@ button {
   height: 100vh;
   font-size: 3rem;
 }
+
+.btn-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+
+  &.column-dir {
+    flex-direction: column;
+  }
+
+  &.flex-left {
+    align-items: flex-start;
+  }
+}

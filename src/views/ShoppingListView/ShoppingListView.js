@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { APIHandler, RecipeSettings, StorageHandler } from "config/C4";
+import {
+  APIHandler,
+  FormatRecipeUrl,
+  RecipeSettings,
+  StorageHandler,
+} from "config/C4";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowRight,
@@ -158,7 +163,13 @@ const ShoppingListView = () => {
                   const { image, recipeName } = recipeContent;
                   return (
                     <div className="overViewRecipes__items--item" key={i}>
-                      <Link to={`recept/${recipeId}`}>
+                      <Link
+                        to={`/recept/${FormatRecipeUrl(
+                          userId,
+                          recipeName,
+                          recipeId
+                        )}`}
+                      >
                         <div
                           className="image"
                           style={{ backgroundImage: `url(${image})` }}

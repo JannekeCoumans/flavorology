@@ -12,11 +12,13 @@ export { default as RecipeCard } from "components/RecipeCard";
 export { default as RecipeOverviewHeader } from "components/RecipeOverviewHeader";
 export { default as RecipesFilter } from "components/RecipesFilter";
 export { default as RegisterUser } from "components/RegisterUser";
+export { default as ScrollToTopButton } from "components/ScrollToTopButton";
 
 // CONFIG
 export { default as AddToShoppingList } from "config/AddToShoppingList";
 export { default as APIHandler } from "config/APIHandler";
 export { default as CheckShoppingList } from "config/CheckShoppingList";
+export { default as FormatRecipeUrl } from "config/FormatRecipeUrl";
 export { default as ShoppinglistIsFilled } from "config/ShoppinglistIsFilled";
 export { default as StorageHandler } from "config/StorageHandler";
 export { default as RecipeSettings } from "config/RecipeSettings";

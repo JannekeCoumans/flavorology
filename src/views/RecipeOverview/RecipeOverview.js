@@ -34,6 +34,18 @@ const convertQuantityType = (quantityType) => {
   }
 };
 
+const checkGuestMode = (userId, callback) => {
+  const { pathname } = window.location;
+  const recipeUrl = pathname.split("/recept/")[1];
+  const recipeUserId = recipeUrl.split("/")[1];
+
+  if (userId === recipeUserId) {
+    callback(false);
+  } else {
+    callback(true);
+  }
+};
+
 const getRecipe = async (userId, id, callback) => {
   const recipe = await APIHandler.getRecipe(userId, id);
   if (recipe && recipe.ingredients) {
@@ -54,15 +66,34 @@ const RecipeOverview = () => {
   const [recipeId, setRecipeId] = useState("");
   const [modal, openModal] = useState(false);
   const [addedToList, setAddedToList] = useState(false);
+  const [guestMode, setGuestMode] = useState(null);
 
   const { ingredients, preperationSteps } = recipe;
 
+  const checkIfOnShoppingList = async () => {
+    const res = await CheckShoppingList(recipeId);
+    if (res === true) {
+      setAddedToList(true);
+    } else if (res === false) {
+      setAddedToList(false);
+    }
+  };
+
   useEffect(() => {
+    if (guestMode === null) {
+      checkGuestMode(userId, setGuestMode);
+    }
+    if (guestMode === true) {
+    }
     const { pathname } = window.location;
-    const recipeId = pathname.split("/recept/")[1];
+    const recipeUrl = pathname.split("/recept/")[1];
+    const recipeId = recipeUrl.split("/")[2];
+
     getRecipe(userId, recipeId, setRecipe);
     setRecipeId(recipeId);
-  }, [userId, setRecipe]);
+  }, [userId, setRecipe, guestMode]);
+
+  checkIfOnShoppingList();
 
   const checkListItems = async () => {
     const checkboxes = [...document.getElementsByName("ingredient")]
@@ -105,8 +136,13 @@ const RecipeOverview = () => {
                           id={item.ingredientName}
                           defaultChecked
                         />
+                        <span className="checkbox">
+                          <div className="checkbox-inner">
+                            <FontAwesomeIcon icon={faCheck} />
+                          </div>
+                        </span>
 
-                        <span>
+                        <span className="ingredient-name">
                           {item.quantity}{" "}
                           {convertQuantityType(item.quantityType)}{" "}
                           {item.ingredientName}
@@ -116,24 +152,29 @@ const RecipeOverview = () => {
                   ))}
               </ul>
 
-              <button
-                className="btn"
-                onClick={() => checkListItems()}
-                // disabled={addedToList || CheckShoppingList(recipeId)}
-              >
-                {addedToList || CheckShoppingList(recipeId) ? (
-                  <span>
-                    <FontAwesomeIcon icon={faCheck} /> Toegevoegd!
-                  </span>
-                ) : (
-                  "Voeg toe aan lijstje"
+              <div className="btn-wrapper column-dir flex-left">
+                <button
+                  className="btn"
+                  onClick={() => checkListItems()}
+                  disabled={addedToList}
+                >
+                  {addedToList ? (
+                    <span>
+                      <FontAwesomeIcon icon={faCheck} /> Toegevoegd!
+                    </span>
+                  ) : (
+                    "Voeg toe aan lijstje"
+                  )}
+                </button>
+                {addedToList && (
+                  <Link
+                    className="btn-flat check-list"
+                    to="/boodschappenlijstje"
+                  >
+                    Bekijk je lijstje <FontAwesomeIcon icon={faArrowRight} />
+                  </Link>
                 )}
-              </button>
-              {CheckShoppingList(recipeId) && (
-                <Link className="btn-flat check-list" to="/boodschappenlijstje">
-                  Bekijk je lijstje <FontAwesomeIcon icon={faArrowRight} />
-                </Link>
-              )}
+              </div>
             </>
           ) : (
             <>
