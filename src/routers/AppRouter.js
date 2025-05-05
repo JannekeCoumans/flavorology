@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import {
   AddRecipeView,
@@ -41,40 +41,34 @@ const AppRouter = () => {
       {loggedIn && <Nav />}
       <div id="top" className={loggedIn ? "viewContainer" : ""}>
         {loggedIn && <ScrollToTopButton scrollToElement="top" />}
-        <Switch>
+        <Routes>
           {loggedIn ? (
             <>
-              <Route path="/" exact component={HomeView} />
-              <Route path="/recepten" exact component={RecipesView} />
-              <Route path="/recept-toevoegen" exact component={AddRecipeView} />
-              <Route
-                path="/recept/:id/:id/:id"
-                exact
-                component={RecipeOverview}
-              />
+              <Route path="/" element={<HomeView />} />
+              <Route path="/recepten" element={<RecipesView />} />
+              <Route path="/recept-toevoegen" element={<AddRecipeView />} />
+              <Route path="/recept/:id/:id/:id" element={<RecipeOverview />} />
               <Route
                 path="/boodschappenlijstje"
-                exact
-                component={ShoppingListView}
+                element={<ShoppingListView />}
               />
-              <Route path="/onlangs-toegevoegd" exact component={ComingSoon} />
-              <Route path="/uitproberen" exact component={ComingSoon} />
-              <Route path="/favorieten" exact component={FavoritesView} />
-              <Route path="/account" exact component={AccountView} />
+              <Route path="/onlangs-toegevoegd" element={<ComingSoon />} />
+              <Route path="/uitproberen" element={<ComingSoon />} />
+              <Route path="/favorieten" element={<FavoritesView />} />
+              <Route path="/account" element={<AccountView />} />
             </>
           ) : (
             <>
               <Route
                 path="/"
-                exact
-                render={() => <LoginView loggedInIsTrue={loggedInIsTrue} />}
+                element={<LoginView loggedInIsTrue={loggedInIsTrue} />}
               />
               {window.location.pathname !== "/" && (
-                <Route path="*" component={LoginRequiredView} />
+                <Route path="*" element={<LoginRequiredView />} />
               )}
             </>
           )}
-        </Switch>
+        </Routes>
       </div>
     </Router>
   );

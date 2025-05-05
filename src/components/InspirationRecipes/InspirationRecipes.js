@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { APIHandler, RecipeCard, StorageHandler } from "config/C4";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom/cjs/react-router-dom";
+import { Link } from "react-router-dom";
 
 const getAllRecipes = async (userId, callback) => {
   const allRecipes = await APIHandler.getAllRecipes(userId);

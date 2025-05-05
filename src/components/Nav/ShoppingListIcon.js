@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { ShoppinglistIsFilled } from "config/C4";
+import { Link } from "react-router-dom";
 
 const { faList, faCheckCircle } = require("@fortawesome/free-solid-svg-icons");
 const { FontAwesomeIcon } = require("@fortawesome/react-fontawesome");
-const { Link } = require("react-router-dom/cjs/react-router-dom.min");
 
 const ShoppingListItem = () => {
   const [listIsFilled, setListIsFilled] = useState(false);
