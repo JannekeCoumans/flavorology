@@ -17,6 +17,7 @@ import {
   LoginRequiredView,
   ScrollToTopButton,
 } from "../config/C4";
+import App from "views/testApp/App";
 
 const checkLoggedIn = (callback) => {
   const user = StorageHandler.get("user");
@@ -56,6 +57,7 @@ const AppRouter = () => {
               <Route path="/uitproberen" element={<ComingSoon />} />
               <Route path="/favorieten" element={<FavoritesView />} />
               <Route path="/account" element={<AccountView />} />
+              <Route path="/test" element={<App />} />
             </>
           ) : (
             <>
