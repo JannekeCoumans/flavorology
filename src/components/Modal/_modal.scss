@@ -1,3 +1,5 @@
+@use "../../assets/styles/variables";
+
 .modal {
   position: fixed;
   top: 0;
@@ -22,7 +24,7 @@
   &__content {
     width: 90vw;
     height: 90vh;
-    background-color: $white;
+    background-color: variables.$white;
     overflow-y: auto;
   }
 }

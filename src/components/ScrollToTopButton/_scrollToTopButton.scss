@@ -1,3 +1,5 @@
+@use "../../assets/styles/variables";
+
 .scroll-to-top {
   position: fixed;
   right: 1.5rem;
@@ -7,8 +9,8 @@
   justify-content: center;
   width: 2.5rem;
   height: 2.5rem;
-  background-color: rgba($yellow, 0.75);
-  color: $white;
+  background-color: rgba(variables.$yellow, 0.75);
+  color: variables.$white;
   border-radius: 0.25rem;
   cursor: pointer;
   z-index: 999;

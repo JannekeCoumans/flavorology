@@ -1,3 +1,5 @@
+@use "variables";
+
 *,
 *::after,
 *::before {
@@ -8,7 +10,7 @@
 
 body {
   background-color: white;
-  color: $black;
+  color: variables.$black;
   overflow-x: hidden;
 }
 
@@ -40,11 +42,11 @@ button {
 
 .btn {
   display: inline-block;
-  background-color: $yellow;
-  color: $black;
+  background-color: variables.$yellow;
+  color: variables.$black;
   font-size: 1rem;
   font-weight: 700;
-  border: 2px solid $yellow;
+  border: 2px solid variables.$yellow;
   border-radius: 2rem;
   padding: 1rem 2rem;
   overflow: hidden;
@@ -63,7 +65,7 @@ button {
     left: 50%;
     width: 0;
     height: 100%;
-    background-color: darken($yellow, 10%);
+    background-color: variables.$darkeryellow;
     border-radius: 2rem;
     opacity: 0;
     transform: translateX(-50%);
@@ -72,7 +74,7 @@ button {
   }
 
   &.inverse {
-    border: 2px solid $black;
+    border: 2px solid variables.$black;
     background-color: transparent;
   }
 
@@ -96,21 +98,21 @@ button {
 }
 
 .btn-inverse {
-  border: 2px solid $black;
+  border: 2px solid variables.$black;
   background-color: transparent;
 }
 
 .btn-flat {
   background-color: transparent;
-  color: $black;
+  color: variables.$black;
   font-weight: bold;
   border: none;
-  border-bottom: 2px solid $black;
+  border-bottom: 2px solid variables.$black;
 
   &.white {
-    color: $white;
+    color: variables.$white;
     text-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
-    border-bottom: 2px solid $white;
+    border-bottom: 2px solid variables.$white;
     padding: 0 0.25rem;
   }
 }

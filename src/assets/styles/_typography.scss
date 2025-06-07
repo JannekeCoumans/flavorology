@@ -1,5 +1,7 @@
+@use "variables";
+
 body {
-  font-family: $primaryFont;
+  font-family: variables.$primaryFont;
 }
 
 a {
@@ -9,7 +11,7 @@ a {
 }
 
 button, input, select, option, textarea {
-  font-family: $primaryFont;
+  font-family: variables.$primaryFont;
 }
 
 input, select, option, textarea {
@@ -18,7 +20,7 @@ input, select, option, textarea {
 
 .inputError {
   display: block;
-  background-color: $grey;
+  background-color: variables.$grey;
   font-size: .75rem;
   font-weight: bold;
   border-radius: 0.25rem;

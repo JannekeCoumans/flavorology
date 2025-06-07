@@ -1,3 +1,5 @@
+@use "../../assets/styles/variables";
+
 .addRecipeView {
   width: 80%;
   margin: 4rem auto;
@@ -41,8 +43,8 @@
 
         button {
           border: none;
-          background-color: $yellow;
-          border: 2px solid $yellow;
+          background-color: variables.$yellow;
+          border: 2px solid variables.$yellow;
           padding: 0.25rem 1rem;
 
           &:first-child {
@@ -51,7 +53,7 @@
 
           &:nth-child(2) {
             background-color: transparent;
-            border: 2px solid $black;
+            border: 2px solid variables.$black;
           }
         }
       }
@@ -69,8 +71,8 @@
 
         button {
           border: none;
-          background-color: $yellow;
-          border: 2px solid $yellow;
+          background-color: variables.$yellow;
+          border: 2px solid variables.$yellow;
           padding: 0.25rem 1rem;
 
           &:first-child {
@@ -79,7 +81,7 @@
 
           &:nth-child(2) {
             background-color: transparent;
-            border: 2px solid $black;
+            border: 2px solid variables.$black;
           }
         }
       }
@@ -90,7 +92,7 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
-    border-top: 2px solid $grey;
+    border-top: 2px solid variables.$grey;
     padding-top: 3rem;
     margin-top: 3rem;
   }
@@ -104,7 +106,7 @@
     height: 100%;
 
     a {
-      color: $yellow;
+      color: variables.$yellow;
       margin-top: 3rem;
     }
   }

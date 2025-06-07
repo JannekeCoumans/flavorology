@@ -1,3 +1,6 @@
+@use "../../assets/styles/mixins";
+@use "../../assets/styles/variables";
+
 .loginUser {
   &__intro {
     margin: 2rem 0 3rem 0;
@@ -13,7 +16,7 @@
     button {
       flex: 0 0 150px;
       background-color: transparent;
-      color: $black;
+      color: variables.$black;
       font-size: 1rem;
       font-weight: bold;
       border: none;
@@ -43,8 +46,8 @@
       svg {
         width: calc(150px - 4rem);
         height: calc(150px - 4rem);
-        background-color: $yellow;
-        color: $black;
+        background-color: variables.$yellow;
+        color: variables.$black;
         opacity: 0.4;
         padding: 2rem;
         transition: 0.2s;
@@ -58,7 +61,7 @@
       }
     }
 
-    @include isPortrait {
+    @include mixins.isPortrait {
       display: grid;
       grid-template-columns: 1fr 1fr;
 

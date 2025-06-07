@@ -1,3 +1,5 @@
+@use "../../assets/styles/variables";
+
 .recipesFilter {
   display: flex;
   flex-direction: column;
@@ -8,7 +10,7 @@
     align-items: center;
     width: 100%;
     background-color: white;
-    color: $darkgrey;
+    color: variables.$darkgrey;
     border-radius: 2rem;
     padding: 0.75rem 1.5rem;
 
@@ -18,7 +20,7 @@
 
     input {
       background-color: transparent;
-      color: $darkgrey;
+      color: variables.$darkgrey;
       font-weight: 700;
       border: none;
 
@@ -47,15 +49,15 @@
       align-items: center;
       justify-content: center;
       height: 30px;
-      color: $darkgrey;
+      color: variables.$darkgrey;
     }
   }
 
   select {
     width: 100%;
-    background-color: $white;
-    color: $darkgrey;
-    border: 1px solid $grey;
+    background-color: variables.$white;
+    color: variables.$darkgrey;
+    border: 1px solid variables.$grey;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;

@@ -1,3 +1,5 @@
+@use "../../assets/styles/variables";
+
 .alterRecipe {
   width: 80%;
   margin: 4rem auto;
@@ -55,9 +57,9 @@
 
         button {
           border: none;
-          background-color: $yellow;
+          background-color: variables.$yellow;
           color: black;
-          border: 2px solid $yellow;
+          border: 2px solid variables.$yellow;
           padding: 0.25rem 1rem;
 
           &:first-child {
@@ -66,7 +68,7 @@
 
           &:nth-child(2) {
             background-color: transparent;
-            border: 2px solid $black;
+            border: 2px solid variables.$black;
           }
         }
       }
@@ -84,9 +86,9 @@
 
         button {
           border: none;
-          background-color: $yellow;
+          background-color: variables.$yellow;
           color: black;
-          border: 2px solid $yellow;
+          border: 2px solid variables.$yellow;
           padding: 0.25rem 1rem;
 
           &:first-child {
@@ -95,7 +97,7 @@
 
           &:nth-child(2) {
             background-color: transparent;
-            border: 2px solid $black;
+            border: 2px solid variables.$black;
           }
         }
       }

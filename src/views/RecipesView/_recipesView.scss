@@ -1,3 +1,5 @@
+@use "../../assets/styles/variables";
+
 .recipesView {
   padding: 2rem 0 4rem;
   &__wrapper {
@@ -7,7 +9,7 @@
       max-height: 100vh;
       padding: 2rem;
       border-radius: 0.5rem;
-      background-color: $lightgrey;
+      background-color: variables.$lightgrey;
 
       h1 {
         padding-bottom: 1.5rem;
@@ -76,8 +78,8 @@
     }
 
     .addToList {
-      background-color: $yellow;
-      color: $black;
+      background-color: variables.$yellow;
+      color: variables.$black;
       font-weight: bold;
       border: none;
       border-radius: 0.5rem;
@@ -94,7 +96,7 @@
       }
   
       &:not(:disabled):hover {
-        background-color: $lightyellow;
+        background-color: variables.$lightyellow;
       }
     }
   }
